@@ -241,30 +241,91 @@ function showToast(message) {
 
 function renderDashboard() {
   const bestMatches = [...freelancers].sort((a, b) => scoreFreelancer(b) - scoreFreelancer(a)).slice(0, 3);
+  const featuredClient = clients[0];
+  const featuredFreelancer = bestMatches[0];
   byId("dashboard").innerHTML = `
-    <div class="hero">
-      <div class="hero-panel">
-        <div>
+    <div class="hero hero-stage">
+      <div class="hero-panel hero-copy">
+        <div class="hero-copy-top">
           <p class="eyebrow">TalentStage marketplace</p>
-          <h2>Hire sharper. Showcase better. Collaborate with confidence.</h2>
-          <p>A clean workspace for portfolios, proposals, AI ranking, contracts, milestones, reviews, community, and sandbox payments.</p>
+          <h2>Find the right person at a glance.</h2>
+          <p>The first screen is built to feel calm, premium, and immediate. Open a project, review a profile, or jump straight into AI matching without hunting through the app.</p>
         </div>
-        <div class="hero-actions">
-          <button class="primary-button" data-route-to="projects">Post a project</button>
-          <button class="ghost-button" data-route-to="marketplace">Find talent</button>
-          <button class="ghost-button" data-route-to="ai">Open AI Studio</button>
+        <div class="hero-copy-bottom">
+          <div class="hero-actions">
+            <button class="primary-button" data-route-to="projects">Post a project</button>
+            <button class="ghost-button" data-route-to="marketplace">Browse profiles</button>
+            <button class="ghost-button" data-route-to="ai">Open AI Studio</button>
+          </div>
+          <div class="hero-metrics">
+            <div><strong>${featuredClient.name}</strong><span>Featured client brief</span></div>
+            <div><strong>${featuredFreelancer.name}</strong><span>Top AI match</span></div>
+            <div><strong>${state.profileCompleteness}%</strong><span>Profile completion</span></div>
+          </div>
         </div>
       </div>
-      <div class="stat-grid">
-        <div class="stat"><span>Profile completeness</span><strong>${state.profileCompleteness}%</strong><div class="progress" style="--value:${state.profileCompleteness}%"><span></span></div></div>
-        <div class="stat"><span>AI match quality</span><strong>${scoreFreelancer(bestMatches[0])}%</strong><p class="muted">Top candidate for current brief</p></div>
-        <div class="stat"><span>Escrow milestones</span><strong>${formatMoney(180000)}</strong><p class="muted">10% platform commission simulated</p></div>
-        <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">Single account can operate as both</p></div>
+      <div class="hero-spotlight">
+        ${renderClientPreview(featuredClient)}
+        ${renderDashboardFreelancerPreview(featuredFreelancer)}
       </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><span>Profile completeness</span><strong>${state.profileCompleteness}%</strong><div class="progress" style="--value:${state.profileCompleteness}%"><span></span></div></div>
+      <div class="stat"><span>AI match quality</span><strong>${scoreFreelancer(featuredFreelancer)}%</strong><p class="muted">Top candidate for current brief</p></div>
+      <div class="stat"><span>Escrow milestones</span><strong>${formatMoney(180000)}</strong><p class="muted">10% platform commission simulated</p></div>
+      <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">Single account can operate as both</p></div>
     </div>
     <div class="three-col">
       ${bestMatches.map(renderCompactMatch).join("")}
     </div>
+  `;
+}
+
+function renderClientPreview(client) {
+  return `
+    <article class="hero-preview client-preview">
+      <div class="hero-preview-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="hero-preview-body">
+        <div class="inline-actions">
+          <span class="chip">Client brief</span>
+          <span class="status-badge">Hiring now</span>
+        </div>
+        <div class="profile-inline">
+          <img class="preview-avatar" src="${client.avatar}" alt="${client.name}" />
+          <div>
+            <h3>${client.name}</h3>
+            <p class="muted">${client.contact}</p>
+          </div>
+        </div>
+        <p class="preview-title">${client.title}</p>
+        <p>${client.needs}</p>
+        <p class="muted">${client.budget}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderDashboardFreelancerPreview(freelancer) {
+  return `
+    <article class="hero-preview freelancer-preview">
+      <div class="hero-preview-cover" style="--cover:url('${freelancer.cover}')"></div>
+      <div class="hero-preview-body">
+        <div class="inline-actions">
+          <span class="chip">${scoreFreelancer(freelancer)}% AI match</span>
+          <span class="badge">Verified</span>
+        </div>
+        <div class="profile-inline">
+          <img class="preview-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
+          <div>
+            <h3>${freelancer.name}</h3>
+            <p class="muted">${freelancer.title}</p>
+          </div>
+        </div>
+        <p class="preview-title">${formatMoney(freelancer.rate)}/hr</p>
+        <p>${freelancer.availability}</p>
+        <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
+      </div>
+    </article>
   `;
 }
 
