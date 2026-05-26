@@ -567,6 +567,10 @@ function renderDashboardFreelancerPreview(freelancer) {
         <p class="preview-title">${formatMoney(freelancer.rate)}/hr</p>
         <p>${freelancer.availability}</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
+        <div class="card-actions">
+          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
+          <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Message</button>
+        </div>
       </div>
     </article>
   `;
@@ -574,7 +578,6 @@ function renderDashboardFreelancerPreview(freelancer) {
 
 function renderCompactMatch(freelancer, options = {}) {
   const { showMatch = true } = options;
-  const hireLabel = getRoleMode() === "Client" ? "Willing to hire" : "Invite to brief";
   return `
     <article class="summary-card profile-card">
       <div class="summary-cover profile-cover" style="${coverStyle(freelancer)}"></div>
@@ -593,7 +596,7 @@ function renderCompactMatch(freelancer, options = {}) {
         <p class="muted">${formatMoney(freelancer.rate)}/hr</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
-          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">${hireLabel}</button>
+          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
           <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Start chat</button>
         </div>
       </div>
@@ -621,7 +624,7 @@ function renderCompactClient(client) {
         <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button" data-action="view-client" data-name="${client.name}">Open profile</button>
-          <button class="ghost-button" data-action="message" data-name="${client.name}">Message</button>
+          <button class="ghost-button" data-action="view-client" data-name="${client.name}">Open profile</button>
         </div>
       </div>
     </article>
@@ -695,7 +698,7 @@ function renderClientCard(client) {
         <div class="chips">${client.projects.map((project) => `<span class="chip">${project}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button" data-action="view-client" data-name="${client.name}">Open profile</button>
-          <button class="ghost-button" data-action="view-client" data-name="${client.name}">View profile</button>
+          <button class="ghost-button" data-action="view-client" data-name="${client.name}">Open profile</button>
         </div>
       </div>
     </article>
@@ -704,7 +707,6 @@ function renderClientCard(client) {
 
 function renderFreelancerCard(freelancer) {
   const saved = state.savedFreelancers.includes(freelancer.id);
-  const hireLabel = getRoleMode() === "Client" ? "Willing to hire" : "Invite to brief";
   return `
     <article class="profile-card">
       <div class="profile-cover" style="${coverStyle(freelancer)}"></div>
@@ -720,7 +722,7 @@ function renderFreelancerCard(freelancer) {
         <div class="chips">${freelancer.skills.map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="chips">${freelancer.verified.map((badge) => `<span class="badge">${badge}</span>`).join("")}</div>
         <div class="card-actions">
-          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">${hireLabel}</button>
+          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
           <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Start chat</button>
           <button class="icon-button" title="Save freelancer" data-action="save-freelancer" data-id="${freelancer.id}">${saved ? "Saved" : "+"}</button>
         </div>
