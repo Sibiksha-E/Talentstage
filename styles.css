@@ -530,12 +530,12 @@ p {
 }
 
 .summary-cover {
-  height: 136px;
+  height: 144px;
 }
 
 .summary-card .profile-cover,
 .summary-card .client-cover {
-  height: 136px;
+  height: 144px;
 }
 
 .summary-body {
@@ -547,13 +547,13 @@ p {
 
 .summary-card .profile-body,
 .summary-card .client-body {
-  padding: 20px 18px 18px;
+  padding: 26px 18px 18px;
 }
 
 .summary-avatar {
   width: 68px;
   height: 68px;
-  margin-top: -42px;
+  margin-top: -38px;
   border-width: 3px;
   position: relative;
   z-index: 1;
@@ -571,6 +571,7 @@ p {
 .summary-card .inline-actions {
   min-height: 32px;
   align-items: center;
+  margin-top: 2px;
 }
 
 .stat strong {
