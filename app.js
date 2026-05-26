@@ -117,6 +117,39 @@ const freelancers = [
   }
 ];
 
+const clients = [
+  {
+    id: "northstar",
+    name: "Northstar Media",
+    contact: "Priya Sharma",
+    title: "Product marketing team",
+    budget: "INR 1.2L - 1.9L",
+    needs: "Dashboard redesign, design system, launch support",
+    cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: "promptbay",
+    name: "PromptBay",
+    contact: "Arun Joseph",
+    title: "AI education startup",
+    budget: "INR 60K - 1.1L",
+    needs: "Video tutorials, motion graphics, thumbnails",
+    cover: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: "finedge",
+    name: "FinEdge",
+    contact: "Meera Nair",
+    title: "Payments platform",
+    budget: "INR 90K - 1.5L",
+    needs: "API docs, migration guides, sample snippets",
+    cover: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80"
+  }
+];
+
 const projects = [
   {
     id: "proj1",
@@ -251,20 +284,59 @@ function renderMarketplace() {
   byId("marketplace").innerHTML = `
     <div class="toolbar">
       <div>
-        <p class="eyebrow">Freelancer discovery</p>
-        <h2>Smart Freelancer Match</h2>
+        <p class="eyebrow">Marketplace</p>
+        <h2>Browse clients and freelancers</h2>
       </div>
-      <input class="searchbar" id="talentSearch" placeholder="Search skills, names, or categories" />
+      <input class="searchbar" id="talentSearch" placeholder="Search names, skills, services, or budgets" />
     </div>
-    <div class="grid three-col" id="freelancerGrid">${freelancers.map(renderFreelancerCard).join("")}</div>
+    <div class="section-stack">
+      <section>
+        <div class="section-heading">
+          <h3>Client profiles</h3>
+          <p class="muted">Each profile shows a background image, contact point, and project appetite.</p>
+        </div>
+        <div class="grid three-col" id="clientGrid">${clients.map(renderClientCard).join("")}</div>
+      </section>
+      <section>
+        <div class="section-heading">
+          <h3>Freelancer profiles</h3>
+          <p class="muted">Search remains available for quick comparison across both sides of the marketplace.</p>
+        </div>
+        <div class="grid three-col" id="freelancerGrid">${freelancers.map(renderFreelancerCard).join("")}</div>
+      </section>
+    </div>
   `;
   byId("talentSearch").addEventListener("input", (event) => {
     const term = event.target.value.toLowerCase();
+    byId("clientGrid").innerHTML = clients
+      .filter((client) => `${client.name} ${client.contact} ${client.title} ${client.needs} ${client.budget}`.toLowerCase().includes(term))
+      .map(renderClientCard)
+      .join("");
     byId("freelancerGrid").innerHTML = freelancers
-      .filter((freelancer) => `${freelancer.name} ${freelancer.title} ${freelancer.skills.join(" ")}`.toLowerCase().includes(term))
+      .filter((freelancer) => `${freelancer.name} ${freelancer.title} ${freelancer.skills.join(" ")} ${freelancer.availability}`.toLowerCase().includes(term))
       .map(renderFreelancerCard)
       .join("");
   });
+}
+
+function renderClientCard(client) {
+  return `
+    <article class="client-card">
+      <div class="client-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="client-body">
+        <img class="client-avatar" src="${client.avatar}" alt="${client.name}" />
+        <span class="chip">Client</span>
+        <h3>${client.name}</h3>
+        <p class="muted">${client.contact} - ${client.title}</p>
+        <p>${client.needs}</p>
+        <p class="muted">${client.budget}</p>
+        <div class="card-actions">
+          <button class="primary-button" data-action="message" data-name="${client.name}">Open brief</button>
+          <button class="ghost-button" data-action="view-client" data-name="${client.name}">View profile</button>
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 function renderFreelancerCard(freelancer) {
@@ -563,6 +635,23 @@ function openProfile(id) {
   );
 }
 
+function openClientProfile(name) {
+  const client = clients.find((item) => item.name === name);
+  if (!client) return;
+  openModal(
+    client.name,
+    `
+      <p>${client.title}</p>
+      <p><strong>Contact:</strong> ${client.contact}</p>
+      <p><strong>Project appetite:</strong> ${client.needs}</p>
+      <p><strong>Budget:</strong> ${client.budget}</p>
+      <div class="card-actions">
+        <button class="primary-button" data-action="message" data-name="${client.name}">Message client</button>
+      </div>
+    `
+  );
+}
+
 function openIdentityFlow() {
   openModal(
     "Identity verification",
@@ -684,6 +773,7 @@ function bindGlobalActions() {
       showToast("Identity verified for marketplace trust.");
     }
     if (action === "view-profile") openProfile(id);
+    if (action === "view-client") openClientProfile(target.dataset.name);
     if (action === "save-freelancer") {
       if (!state.savedFreelancers.includes(id)) state.savedFreelancers.push(id);
       showToast("Freelancer saved for future work.");

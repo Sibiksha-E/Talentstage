@@ -213,7 +213,7 @@ p {
 
 .view {
   display: none;
-  padding: 28px clamp(18px, 4vw, 46px) 52px;
+  padding: 28px clamp(18px, 4vw, 46px) 56px;
 }
 
 .active-view {
@@ -224,14 +224,14 @@ p {
   min-height: 330px;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  gap: 26px;
+  gap: 22px;
   align-items: stretch;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .hero-panel {
   border-radius: 8px;
-  padding: clamp(22px, 4vw, 42px);
+  padding: clamp(22px, 4vw, 40px);
   background:
     linear-gradient(120deg, rgba(31, 122, 103, 0.92), rgba(20, 24, 28, 0.82)),
     url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80") center/cover;
@@ -263,7 +263,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .primary-button,
@@ -315,7 +315,7 @@ p {
 .two-col,
 .three-col {
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .stat-grid {
@@ -333,6 +333,7 @@ p {
 .card,
 .stat,
 .profile-card,
+.client-card,
 .project-card,
 .feed-item,
 .contract-row {
@@ -346,7 +347,7 @@ p {
 .stat,
 .feed-item,
 .contract-row {
-  padding: 18px;
+  padding: 20px;
 }
 
 .stat strong {
@@ -361,6 +362,7 @@ p {
 }
 
 .profile-card,
+.client-card,
 .project-card {
   overflow: hidden;
   min-height: 100%;
@@ -374,6 +376,7 @@ p {
 }
 
 .profile-body,
+.client-body,
 .project-body {
   padding: 20px;
 }
@@ -385,6 +388,27 @@ p {
   object-fit: cover;
   border: 3px solid #fff;
   margin-top: -52px;
+  background: #ddd;
+}
+
+.client-cover {
+  height: 128px;
+  background:
+    linear-gradient(135deg, rgba(49, 96, 143, 0.68), rgba(31, 122, 103, 0.56)),
+    var(--cover) center/cover;
+}
+
+.client-body {
+  padding: 20px;
+}
+
+.client-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 3px solid #fff;
+  margin-top: -46px;
   background: #ddd;
 }
 
@@ -427,7 +451,28 @@ p {
 
 .toolbar {
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+}
+
+.section-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+  margin: 0 0 14px;
+}
+
+.section-heading h3 {
+  margin-bottom: 4px;
+}
+
+.section-heading p {
+  margin: 0;
 }
 
 .searchbar,
