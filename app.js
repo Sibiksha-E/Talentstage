@@ -364,13 +364,10 @@ function renderDashboard() {
       ? renderDashboardFreelancerPreview(featuredFreelancer)
       : roleMode === "Freelancer"
         ? renderClientPreview(featuredClient)
-        : `<div class="dashboard-trio">
+        : `<div class="dashboard-both">
             <div>
               <p class="eyebrow">Client side</p>
               ${renderClientPreview(featuredClient)}
-            </div>
-            <div>
-              ${renderMotionBridge(featuredClient, featuredFreelancer)}
             </div>
             <div>
               <p class="eyebrow">Freelancer side</p>
@@ -479,42 +476,16 @@ function renderDashboardFreelancerPreview(freelancer) {
   `;
 }
 
-function renderMotionBridge(client, freelancer) {
-  return `
-    <article class="hero-motion" aria-label="Live workflow bridge">
-      <div class="hero-motion-top">
-        <span class="chip">Live flow</span>
-        <span class="status-badge">Both mode</span>
-      </div>
-      <div class="hero-motion-track">
-        <span class="hero-motion-orbit hero-motion-orbit-top"></span>
-        <span class="hero-motion-orbit hero-motion-orbit-mid"></span>
-        <span class="hero-motion-orbit hero-motion-orbit-bottom"></span>
-      </div>
-      <div class="hero-motion-body">
-        <div class="hero-motion-step">
-          <strong>${client.name}</strong>
-          <span>Brief posted</span>
-        </div>
-        <div class="hero-motion-step active">
-          <strong>AI match</strong>
-          <span>${scoreFreelancer(freelancer)}% fit</span>
-        </div>
-        <div class="hero-motion-step">
-          <strong>${freelancer.name}</strong>
-          <span>Proposal ready</span>
-        </div>
-      </div>
-      <p class="muted hero-motion-caption">A moving bridge shows the brief traveling from client intent to freelancer response.</p>
-    </article>
-  `;
-}
-
 function renderCompactMatch(freelancer) {
   return `
     <article class="card">
-      <span class="score">${scoreFreelancer(freelancer)}% AI match</span>
-      <h3>${freelancer.name}</h3>
+      <div class="compact-head">
+        <img class="compact-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
+        <div>
+          <span class="score">${scoreFreelancer(freelancer)}% AI match</span>
+          <h3>${freelancer.name}</h3>
+        </div>
+      </div>
       <p>${freelancer.title}</p>
       <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
       <button class="small-button" data-action="view-profile" data-id="${freelancer.id}">View profile</button>
@@ -525,8 +496,13 @@ function renderCompactMatch(freelancer) {
 function renderCompactClient(client) {
   return `
     <article class="card">
-      <span class="chip">Client</span>
-      <h3>${client.name}</h3>
+      <div class="compact-head">
+        <img class="compact-avatar" src="${client.avatar}" alt="${client.name}" />
+        <div>
+          <span class="chip">Client</span>
+          <h3>${client.name}</h3>
+        </div>
+      </div>
       <p class="muted">${client.contact}</p>
       <p>${client.needs}</p>
       <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
