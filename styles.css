@@ -546,13 +546,13 @@ p {
 }
 
 .summary-panel {
-  padding: 34px 18px 18px;
+  padding: 18px;
 }
 
 .summary-avatar {
   width: 68px;
   height: 68px;
-  margin-top: -52px;
+  margin-top: 0;
   border-width: 3px;
   position: relative;
   z-index: 1;
@@ -571,7 +571,7 @@ p {
 .summary-card .inline-actions {
   min-height: 32px;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .stat strong {
