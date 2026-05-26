@@ -385,6 +385,23 @@ function renderDashboard() {
       : "A softer, clearer starting point for browsing clients, freelancers, and strong project matches.";
   const browseLabel = isClient ? "Browse freelancers" : isFreelancer ? "Browse clients" : "Browse marketplace";
   const matchLabel = isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio";
+  const quoteMarkup = isClient
+    ? `
+      <div class="hero-quote-band">
+        <blockquote>"The right brief deserves the right person."</blockquote>
+        <p>Thoughtful discovery, trusted profiles, calmer hiring.</p>
+      </div>`
+    : isFreelancer
+      ? `
+        <div class="hero-quote-band">
+          <blockquote>"Good work grows where trust feels easy."</blockquote>
+          <p>Clear opportunities, warm client signals, and room to do your best work.</p>
+        </div>`
+      : `
+        <div class="hero-quote-band">
+          <blockquote>"Great partnerships begin with clarity and trust."</blockquote>
+          <p>A serene marketplace for people who want better collaborations, not louder dashboards.</p>
+        </div>`;
   const spotlightMarkup =
     roleMode === "Client"
       ? renderDashboardFreelancerPreview(featuredFreelancer)
@@ -426,6 +443,7 @@ function renderDashboard() {
           <p class="eyebrow">TalentStage marketplace</p>
           <h2>${headline}</h2>
           <p>${supportingCopy}</p>
+          ${quoteMarkup}
         </div>
         <div class="hero-copy-bottom">
           <div class="hero-search-stack">
