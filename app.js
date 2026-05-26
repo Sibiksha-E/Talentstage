@@ -321,6 +321,20 @@ const portfolioProjects = [
 
 const formatMoney = (amount) => `INR ${amount.toLocaleString("en-IN")}`;
 const byId = (id) => document.getElementById(id);
+const profileThemes = {
+  maya: { a: "rgba(33, 106, 142, 0.56)", b: "rgba(31, 122, 103, 0.54)" },
+  arjun: { a: "rgba(63, 88, 166, 0.58)", b: "rgba(47, 62, 140, 0.56)" },
+  zoya: { a: "rgba(181, 82, 63, 0.58)", b: "rgba(126, 52, 95, 0.54)" },
+  neel: { a: "rgba(82, 104, 74, 0.56)", b: "rgba(39, 91, 109, 0.54)" },
+  northstar: { a: "rgba(41, 86, 154, 0.56)", b: "rgba(46, 117, 128, 0.54)" },
+  promptbay: { a: "rgba(131, 74, 152, 0.56)", b: "rgba(55, 109, 132, 0.54)" },
+  finedge: { a: "rgba(42, 102, 118, 0.58)", b: "rgba(52, 126, 82, 0.54)" }
+};
+
+function coverStyle(item) {
+  const theme = profileThemes[item.id] || { a: "rgba(49, 96, 143, 0.56)", b: "rgba(31, 122, 103, 0.54)" };
+  return `--cover:url('${item.cover}');--tint-a:${theme.a};--tint-b:${theme.b};`;
+}
 
 function scoreFreelancer(freelancer, project = projects[0]) {
   const skillMatches = project.skills.filter((skill) =>
@@ -427,7 +441,7 @@ function renderDashboard() {
 function renderClientPreview(client) {
   return `
     <article class="hero-preview client-preview">
-      <div class="hero-preview-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="hero-preview-cover" style="${coverStyle(client)}"></div>
       <div class="hero-preview-body">
         <div class="inline-actions">
           <span class="chip">Client brief</span>
@@ -455,7 +469,7 @@ function renderClientPreview(client) {
 function renderDashboardFreelancerPreview(freelancer) {
   return `
     <article class="hero-preview freelancer-preview">
-      <div class="hero-preview-cover" style="--cover:url('${freelancer.cover}')"></div>
+      <div class="hero-preview-cover" style="${coverStyle(freelancer)}"></div>
       <div class="hero-preview-body">
         <div class="inline-actions">
           <span class="chip">${scoreFreelancer(freelancer)}% AI match</span>
@@ -481,7 +495,7 @@ function renderCompactMatch(freelancer, options = {}) {
   const hireLabel = getRoleMode() === "Client" ? "Willing to hire" : "Invite to brief";
   return `
     <article class="summary-card profile-card">
-      <div class="summary-cover profile-cover" style="--cover:url('${freelancer.cover}')"></div>
+      <div class="summary-cover profile-cover" style="${coverStyle(freelancer)}"></div>
       <div class="summary-body summary-panel">
         <img class="compact-avatar summary-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
         <div class="inline-actions">
@@ -504,7 +518,7 @@ function renderCompactMatch(freelancer, options = {}) {
 function renderCompactClient(client) {
   return `
     <article class="summary-card client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
-      <div class="summary-cover client-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="summary-cover client-cover" style="${coverStyle(client)}"></div>
       <div class="summary-body summary-panel">
         <img class="compact-avatar summary-avatar" src="${client.avatar}" alt="${client.name}" />
         <div class="inline-actions">
@@ -577,7 +591,7 @@ function renderMarketplace() {
 function renderClientCard(client) {
   return `
     <article class="client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
-      <div class="client-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="client-cover" style="${coverStyle(client)}"></div>
       <div class="client-body">
         <img class="client-avatar" src="${client.avatar}" alt="${client.name}" />
         <div class="inline-actions">
@@ -603,7 +617,7 @@ function renderFreelancerCard(freelancer) {
   const hireLabel = getRoleMode() === "Client" ? "Willing to hire" : "Invite to brief";
   return `
     <article class="profile-card">
-      <div class="profile-cover" style="--cover:url('${freelancer.cover}')"></div>
+      <div class="profile-cover" style="${coverStyle(freelancer)}"></div>
       <div class="profile-body">
         <img class="avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
         <div class="inline-actions">
