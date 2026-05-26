@@ -349,17 +349,24 @@ function showToast(message) {
   setTimeout(() => toast.classList.remove("show"), 2600);
 }
 
+function getRoleMode() {
+  return state.role === "Both" ? "Both" : state.role;
+}
+
 function renderDashboard() {
   const bestMatches = [...freelancers].sort((a, b) => scoreFreelancer(b) - scoreFreelancer(a)).slice(0, 3);
   const featuredClient = clients[0];
   const featuredFreelancer = bestMatches[0];
+  const roleMode = getRoleMode();
+  const isFreelancer = roleMode === "Freelancer";
+  const isClient = roleMode === "Client";
   byId("dashboard").innerHTML = `
     <div class="hero hero-stage">
       <div class="hero-panel hero-copy">
         <div class="hero-copy-top">
           <p class="eyebrow">TalentStage marketplace</p>
-          <h2>Find the right person at a glance.</h2>
-          <p>The first screen is built to feel calm, premium, and immediate. Open a project, review a profile, or jump straight into AI matching without hunting through the app.</p>
+          <h2>${isFreelancer ? "Find clients who need your skills." : isClient ? "Find freelancers who fit the brief." : "Find the right person at a glance."}</h2>
+          <p>${isFreelancer ? "Focus on open briefs, top client contacts, and the fastest path to a proposal." : isClient ? "Focus on verified freelancers, project fit, and fast hiring decisions." : "A calm starting point for browsing clients, freelancers, profiles, and AI match results."}</p>
         </div>
         <div class="hero-copy-bottom">
           <div class="hero-search-row">
@@ -367,22 +374,23 @@ function renderDashboard() {
             <button class="primary-button" data-action="jump-marketplace">Search</button>
           </div>
           <div class="hero-actions">
-            <button class="primary-button" data-route-to="projects">Post a project</button>
-            <button class="ghost-button" data-route-to="marketplace">Browse profiles</button>
+            ${isClient ? `<button class="primary-button" data-route-to="projects">Post a project</button>` : `<button class="primary-button" data-route-to="marketplace">Browse briefs</button>`}
+            <button class="ghost-button" data-route-to="marketplace">${isFreelancer ? "Browse clients" : isClient ? "Browse freelancers" : "Browse profiles"}</button>
             <button class="ghost-button" data-route-to="ai">Open AI Studio</button>
           </div>
         </div>
       </div>
       <div class="hero-spotlight">
-        ${renderClientPreview(featuredClient)}
-        ${renderDashboardFreelancerPreview(featuredFreelancer)}
+        ${roleMode === "Client" ? renderClientPreview(featuredClient) : ""}
+        ${roleMode === "Freelancer" ? renderDashboardFreelancerPreview(featuredFreelancer) : ""}
+        ${roleMode === "Both" ? renderClientPreview(featuredClient) + renderDashboardFreelancerPreview(featuredFreelancer) : ""}
       </div>
     </div>
     <div class="stat-grid">
       <div class="stat"><span>Profile completeness</span><strong>${state.profileCompleteness}%</strong><div class="progress" style="--value:${state.profileCompleteness}%"><span></span></div></div>
-      <div class="stat"><span>AI match quality</span><strong>${scoreFreelancer(featuredFreelancer)}%</strong><p class="muted">Top candidate for current brief</p></div>
+      <div class="stat"><span>${isFreelancer ? "Open briefs" : isClient ? "Top candidates" : "AI match quality"}</span><strong>${isFreelancer ? projects.length : scoreFreelancer(featuredFreelancer)}${isFreelancer ? "" : "%"}</strong><p class="muted">${isFreelancer ? "Active projects ready for proposals" : "Top candidate for current brief"}</p></div>
       <div class="stat"><span>Escrow milestones</span><strong>${formatMoney(180000)}</strong><p class="muted">10% platform commission simulated</p></div>
-      <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">Single account can operate as both</p></div>
+      <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">${isFreelancer ? "Freelancer workflow" : isClient ? "Client workflow" : "Single account can operate as both"}</p></div>
     </div>
     <div class="three-col">
       ${bestMatches.map(renderCompactMatch).join("")}
@@ -464,42 +472,51 @@ function renderCompactMatch(freelancer) {
 
 function renderMarketplace() {
   const searchTerm = state.searchTerm || "";
+  const roleMode = getRoleMode();
   byId("marketplace").innerHTML = `
     <div class="toolbar">
       <div>
         <p class="eyebrow">Marketplace</p>
-        <h2>Browse clients and freelancers</h2>
+        <h2>${roleMode === "Freelancer" ? "Browse clients and open briefs" : roleMode === "Client" ? "Browse freelancers and portfolios" : "Browse clients and freelancers"}</h2>
       </div>
       <input class="searchbar" id="talentSearch" placeholder="Search names, skills, services, or budgets" value="${searchTerm}" />
     </div>
     <div class="section-stack">
+      ${roleMode !== "Freelancer" ? `
       <section>
         <div class="section-heading">
           <h3>Client profiles</h3>
           <p class="muted">Each profile shows a background image, contact point, and project appetite.</p>
         </div>
         <div class="grid three-col" id="clientGrid">${clients.map(renderClientCard).join("")}</div>
-      </section>
+      </section>` : ""}
+      ${roleMode !== "Client" ? `
       <section>
         <div class="section-heading">
           <h3>Freelancer profiles</h3>
           <p class="muted">Search remains available for quick comparison across both sides of the marketplace.</p>
         </div>
         <div class="grid three-col" id="freelancerGrid">${freelancers.map(renderFreelancerCard).join("")}</div>
-      </section>
+      </section>` : ""}
     </div>
   `;
   byId("talentSearch").addEventListener("input", (event) => {
     const term = event.target.value.toLowerCase();
     state.searchTerm = event.target.value;
-    byId("clientGrid").innerHTML = clients
-      .filter((client) => `${client.name} ${client.contact} ${client.title} ${client.needs} ${client.budget}`.toLowerCase().includes(term))
-      .map(renderClientCard)
-      .join("");
-    byId("freelancerGrid").innerHTML = freelancers
-      .filter((freelancer) => `${freelancer.name} ${freelancer.title} ${freelancer.skills.join(" ")} ${freelancer.availability}`.toLowerCase().includes(term))
-      .map(renderFreelancerCard)
-      .join("");
+    const clientGrid = byId("clientGrid");
+    const freelancerGrid = byId("freelancerGrid");
+    if (clientGrid) {
+      clientGrid.innerHTML = clients
+        .filter((client) => `${client.name} ${client.contact} ${client.title} ${client.needs} ${client.budget}`.toLowerCase().includes(term))
+        .map(renderClientCard)
+        .join("");
+    }
+    if (freelancerGrid) {
+      freelancerGrid.innerHTML = freelancers
+        .filter((freelancer) => `${freelancer.name} ${freelancer.title} ${freelancer.skills.join(" ")} ${freelancer.availability}`.toLowerCase().includes(term))
+        .map(renderFreelancerCard)
+        .join("");
+    }
   });
 }
 
