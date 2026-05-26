@@ -442,12 +442,7 @@ p {
 .portal,
 .connection-arc,
 .particle,
-.handshake-core,
-.handshake-mark,
-.handshake-link,
-.silhouette-neck,
-.silhouette-forearm,
-.silhouette-hand {
+.handshake-core {
   position: absolute;
 }
 
@@ -533,61 +528,10 @@ p {
   border-radius: 50%;
   background: linear-gradient(180deg, #ffebd1, #f2c995);
   box-shadow: 0 10px 24px rgba(198, 153, 95, 0.12);
-  overflow: hidden;
 }
 
 .silhouette-right .silhouette-head {
   background: linear-gradient(180deg, #ffeeda, #f4d1aa);
-}
-
-.silhouette-face {
-  position: absolute;
-  inset: 10px 12px 6px 12px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffe8cc, #f5d2a6);
-}
-
-.silhouette-hair {
-  position: absolute;
-  top: 2px;
-  left: 4px;
-  width: 58px;
-  height: 30px;
-  border-radius: 22px 26px 14px 18px;
-  background: linear-gradient(180deg, #2d3136, #1a1f26);
-}
-
-.silhouette-right .silhouette-hair {
-  left: 2px;
-  border-radius: 26px 22px 18px 14px;
-}
-
-.silhouette-ear {
-  position: absolute;
-  right: 6px;
-  top: 28px;
-  width: 10px;
-  height: 12px;
-  border-radius: 50%;
-  background: #f2c995;
-}
-
-.silhouette-right .silhouette-ear {
-  left: 6px;
-  right: auto;
-}
-
-.silhouette-neck {
-  top: 96px;
-  left: 101px;
-  width: 18px;
-  height: 20px;
-  border-radius: 0 0 10px 10px;
-  background: #f1c893;
-}
-
-.silhouette-right .silhouette-neck {
-  background: #f3d2a8;
 }
 
 .silhouette-torso {
@@ -621,49 +565,6 @@ p {
   background: linear-gradient(90deg, #f7f2ea, #ebe0d1);
 }
 
-.silhouette-forearm {
-  top: 210px;
-  width: 96px;
-  height: 24px;
-  border-radius: 999px;
-}
-
-.silhouette-left .silhouette-forearm-front {
-  left: 136px;
-  background: linear-gradient(90deg, #2f7d6d, #1e6557);
-  transform: rotate(22deg);
-  animation: forearmReachLeft 7.2s ease-in-out infinite;
-}
-
-.silhouette-right .silhouette-forearm-front {
-  right: 136px;
-  background: linear-gradient(90deg, #f7f2ea, #ece1d3);
-  transform: rotate(-22deg);
-  animation: forearmReachRight 7.2s ease-in-out infinite;
-}
-
-.silhouette-hand {
-  top: 244px;
-  width: 34px;
-  height: 24px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #f6d2a7, #ebbc84);
-  box-shadow: 0 6px 14px rgba(198, 153, 95, 0.12);
-}
-
-.silhouette-left .silhouette-hand-front {
-  left: 210px;
-  transform: rotate(18deg);
-  animation: handReachLeft 7.2s ease-in-out infinite;
-}
-
-.silhouette-right .silhouette-hand-front {
-  right: 210px;
-  background: linear-gradient(180deg, #f7d7b2, #ecc495);
-  transform: rotate(-18deg);
-  animation: handReachRight 7.2s ease-in-out infinite;
-}
-
 .silhouette-left .silhouette-arm-front {
   left: 116px;
   transform-origin: left center;
@@ -690,42 +591,6 @@ p {
   width: 74px;
   opacity: 0.5;
   transform: rotate(-34deg);
-}
-
-.handshake-mark {
-  left: 50%;
-  top: 226px;
-  width: 74px;
-  height: 74px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  background: rgba(255, 252, 247, 0.86);
-  box-shadow: 0 10px 24px rgba(146, 126, 94, 0.1);
-}
-
-.handshake-mark::before,
-.handshake-mark::after {
-  content: "";
-  position: absolute;
-  background: #e8dfd1;
-  border-radius: 999px;
-}
-
-.handshake-mark::before {
-  width: 20px;
-  height: 4px;
-  left: 22px;
-  top: 37px;
-  transform: rotate(45deg);
-}
-
-.handshake-mark::after {
-  width: 34px;
-  height: 4px;
-  left: 31px;
-  top: 31px;
-  transform: rotate(-45deg);
 }
 
 .handshake-core {
@@ -762,17 +627,6 @@ p {
 
 .handshake-core span:nth-child(3) {
   animation-delay: -4.8s;
-}
-
-.handshake-link {
-  left: 50%;
-  top: 282px;
-  width: 132px;
-  height: 16px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(47, 125, 109, 0.18), rgba(255, 255, 255, 0.95), rgba(236, 225, 211, 0.95));
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.55);
 }
 
 .connection-arc {
@@ -1460,42 +1314,6 @@ label {
   }
   34%, 66% {
     transform: rotate(-2deg) scaleX(1.08);
-  }
-}
-
-@keyframes forearmReachLeft {
-  0%, 18%, 100% {
-    transform: rotate(22deg) translateX(0);
-  }
-  34%, 66% {
-    transform: rotate(12deg) translateX(12px);
-  }
-}
-
-@keyframes forearmReachRight {
-  0%, 18%, 100% {
-    transform: rotate(-22deg) translateX(0);
-  }
-  34%, 66% {
-    transform: rotate(-12deg) translateX(-12px);
-  }
-}
-
-@keyframes handReachLeft {
-  0%, 18%, 100% {
-    transform: rotate(18deg) translateX(0);
-  }
-  34%, 66% {
-    transform: rotate(8deg) translateX(10px);
-  }
-}
-
-@keyframes handReachRight {
-  0%, 18%, 100% {
-    transform: rotate(-18deg) translateX(0);
-  }
-  34%, 66% {
-    transform: rotate(-8deg) translateX(-10px);
   }
 }
 

@@ -479,38 +479,22 @@ function renderHeroCinema(roleMode) {
       <div class="portal portal-left"></div>
       <div class="portal portal-right"></div>
       <div class="silhouette silhouette-left">
-        <div class="silhouette-head">
-          <div class="silhouette-face"></div>
-          <div class="silhouette-hair"></div>
-          <div class="silhouette-ear"></div>
-        </div>
-        <div class="silhouette-neck"></div>
+        <div class="silhouette-head"></div>
         <div class="silhouette-torso"></div>
-        <div class="silhouette-forearm silhouette-forearm-front"></div>
-        <div class="silhouette-hand silhouette-hand-front"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
       <div class="silhouette silhouette-right">
-        <div class="silhouette-head">
-          <div class="silhouette-face"></div>
-          <div class="silhouette-hair"></div>
-          <div class="silhouette-ear"></div>
-        </div>
-        <div class="silhouette-neck"></div>
+        <div class="silhouette-head"></div>
         <div class="silhouette-torso"></div>
-        <div class="silhouette-forearm silhouette-forearm-front"></div>
-        <div class="silhouette-hand silhouette-hand-front"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
-      <div class="handshake-mark ${roleMode === "Client" ? "client-mark" : roleMode === "Freelancer" ? "freelancer-mark" : "both-mark"}"></div>
       <div class="handshake-core">
         <span></span>
         <span></span>
         <span></span>
       </div>
-      <div class="handshake-link"></div>
       <div class="connection-arc connection-arc-left"></div>
       <div class="connection-arc connection-arc-right"></div>
       <div class="particle particle-a"></div>
@@ -566,6 +550,7 @@ function renderDashboardFreelancerPreview(freelancer) {
         </div>
         <p class="preview-title">${formatMoney(freelancer.rate)}/hr</p>
         <p>${freelancer.availability}</p>
+        <p class="muted">${freelancer.rating} rating</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
@@ -594,6 +579,7 @@ function renderCompactMatch(freelancer, options = {}) {
           </div>
         </div>
         <p class="muted">${formatMoney(freelancer.rate)}/hr</p>
+        <p class="muted">${freelancer.rating} rating</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
@@ -1011,6 +997,7 @@ function openProfile(id) {
           <h3>Overview</h3>
           <div class="chips">
             <span class="chip">${formatMoney(freelancer.rate)}/hr</span>
+            <span class="chip">${freelancer.rating} rating</span>
             <span class="status-badge">${freelancer.availability}</span>
             <span class="score">${scoreFreelancer(freelancer)}% fit</span>
           </div>
