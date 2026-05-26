@@ -156,8 +156,8 @@ main {
 
 .topbar {
   min-height: auto;
-  max-width: 980px;
-  margin: 0 auto;
+  width: min(100%, calc(100vw - 56px));
+  margin: 0 28px;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 24px 28px;
@@ -250,8 +250,8 @@ p {
 }
 
 .dashboard-frame {
-  max-width: 980px;
-  margin: 0 auto;
+  width: min(100%, calc(100vw - 56px));
+  margin: 0 28px;
 }
 
 .hero {
@@ -1440,6 +1440,8 @@ label {
   .topbar {
     grid-template-columns: 1fr;
     gap: 16px;
+    width: calc(100vw - 28px);
+    margin: 0 14px;
   }
 }
 
@@ -1450,6 +1452,13 @@ label {
 
   .topbar {
     padding-inline: 14px;
+    width: calc(100vw - 20px);
+    margin: 0 10px;
+  }
+
+  .dashboard-frame {
+    width: calc(100vw - 20px);
+    margin: 0 10px;
   }
 
   .stat-grid,

@@ -321,6 +321,11 @@ const portfolioProjects = [
 
 const formatMoney = (amount) => `INR ${amount.toLocaleString("en-IN")}`;
 const byId = (id) => document.getElementById(id);
+const withdrawalHistory = [
+  { date: "2026-05-04", amount: 32000, status: "Processed" },
+  { date: "2026-05-12", amount: 28000, status: "Pending" },
+  { date: "2026-05-19", amount: 41000, status: "Processed" }
+];
 const profileThemes = {
   maya: { a: "rgba(33, 106, 142, 0.56)", b: "rgba(31, 122, 103, 0.54)" },
   arjun: { a: "rgba(63, 88, 166, 0.58)", b: "rgba(47, 62, 140, 0.56)" },
@@ -364,6 +369,19 @@ function showToast(message) {
 
 function getRoleMode() {
   return state.role === "Both" ? "Both" : state.role;
+}
+
+function getProfileCompleteness(freelancer = freelancers[0]) {
+  const checks = [
+    freelancer.education,
+    freelancer.experience,
+    freelancer.skills?.length,
+    freelancer.verified?.length,
+    freelancer.projects?.length,
+    freelancer.reviews?.length
+  ];
+  const complete = checks.filter(Boolean).length;
+  return Math.round((complete / checks.length) * 100);
 }
 
 function renderDashboard() {
@@ -800,6 +818,8 @@ function renderProposal(proposal) {
 }
 
 function renderPortfolio() {
+  const primaryFreelancer = freelancers[0];
+  const profileCompleteness = getProfileCompleteness(primaryFreelancer);
   byId("portfolio").innerHTML = `
     <div class="toolbar">
       <div>
@@ -807,6 +827,11 @@ function renderPortfolio() {
         <h2>Rich portfolio profile</h2>
       </div>
       <button class="primary-button" data-action="skill-test">Generate skill test</button>
+    </div>
+    <div class="three-col" style="margin-bottom:16px">
+      <article class="stat"><span>Profile completeness</span><strong>${profileCompleteness}%</strong><p class="muted">Keep your profile ready for discovery.</p></article>
+      <article class="stat"><span>Total earned</span><strong>${formatMoney(180000)}</strong><p class="muted">Across active and completed work.</p></article>
+      <article class="stat"><span>Pending payouts</span><strong>${formatMoney(60000)}</strong><p class="muted">Awaiting milestone release.</p></article>
     </div>
     <div class="two-col">
       <section class="card">
@@ -830,6 +855,22 @@ function renderPortfolio() {
         <button class="primary-button" data-action="review-portfolio">Review portfolio</button>
         <div id="portfolioReview" class="timeline"></div>
       </aside>
+    </div>
+    <div class="two-col" style="margin-top:16px">
+      <article class="card">
+        <h3>Earnings tracker</h3>
+        <div class="timeline">
+          <div><strong>Released</strong><span>${formatMoney(180000)}</span><button class="small-button">Summary</button></div>
+          <div><strong>Pending payments</strong><span>${formatMoney(60000)}</span><button class="small-button">Milestones</button></div>
+          <div><strong>Available to withdraw</strong><span>${formatMoney(89000)}</span><button class="small-button">Withdraw</button></div>
+        </div>
+      </article>
+      <article class="card">
+        <h3>Withdrawal history</h3>
+        <div class="timeline">
+          ${withdrawalHistory.map((item) => `<div><strong>${item.date}</strong><span>${formatMoney(item.amount)} - ${item.status}</span><button class="small-button">Receipt</button></div>`).join("")}
+        </div>
+      </article>
     </div>
     <div class="three-col" style="margin-top:16px">
       ${portfolioProjects.map((project) => `
@@ -898,6 +939,8 @@ function renderContracts() {
                   <strong>${item.name}</strong>
                   <span class="chip">${item.status}</span>
                   <button class="small-button" data-action="advance-deliverable" data-contract="${index}" data-deliverable="${itemIndex}">Update</button>
+                  <button class="small-button" data-action="upload-file" data-name="${item.name}">Upload file</button>
+                  <button class="small-button" data-action="request-revision" data-name="${item.name}">Request revision</button>
                 </div>
               `).join("")}
             </div>
@@ -947,6 +990,7 @@ function renderCommunity() {
 function renderPayments() {
   const total = 180000;
   const commission = total * 0.1;
+  const pending = 60000;
   byId("payments").innerHTML = `
     <div class="toolbar">
       <div>
@@ -974,6 +1018,21 @@ function renderPayments() {
         <p>Featured profile, priority in AI match, unlimited proposals, and richer analytics.</p>
         <p class="muted">Sandbox checkout only. No real money is collected.</p>
         <button class="primary-button" data-action="pro-checkout">${state.proActive ? "Manage Pro" : "Sandbox checkout"}</button>
+      </aside>
+    </div>
+    <div class="two-col" style="margin-top:16px">
+      <section class="card">
+        <h3>Withdrawal history</h3>
+        <div class="timeline">
+          ${withdrawalHistory.map((item) => `<div><strong>${item.date}</strong><span>${formatMoney(item.amount)} - ${item.status}</span><button class="small-button">Receipt</button></div>`).join("")}
+        </div>
+      </section>
+      <aside class="card">
+        <h3>Reviews and completion</h3>
+        <div class="timeline">
+          <div><strong>Northstar Media</strong><span>Rate and review Maya Rao after final delivery.</span><button class="small-button" data-action="leave-review">Leave review</button></div>
+          <div><strong>Pending release</strong><span>${formatMoney(pending)} waiting on milestone approval.</span><button class="small-button" data-action="release-payment">Release</button></div>
+        </div>
       </aside>
     </div>
   `;
@@ -1311,6 +1370,24 @@ function bindGlobalActions() {
     if (action === "challenge") showToast("Challenge submission uploaded and queued for judging.");
     if (action === "mentor") showToast("Mentorship matches suggested based on your skills.");
     if (action === "release-payment") showToast("Sandbox milestone payment released.");
+    if (action === "upload-file") showToast(`File uploaded for ${target.dataset.name}.`);
+    if (action === "request-revision") showToast(`Revision requested for ${target.dataset.name}.`);
+    if (action === "leave-review") {
+      openModal(
+        "Rate and review freelancer",
+        `
+          <div class="form-grid">
+            <label>Rating<select><option>5 - Excellent</option><option>4 - Strong</option><option>3 - Good</option></select></label>
+            <label class="full">Review<textarea>Clear communication, strong delivery quality, and timely updates.</textarea></label>
+          </div>
+          <button class="primary-button" data-action="submit-review">Submit review</button>
+        `
+      );
+    }
+    if (action === "submit-review") {
+      byId("modal").close();
+      showToast("Review submitted for the completed project.");
+    }
     if (action === "pro-checkout") {
       state.proActive = true;
       renderPayments();
