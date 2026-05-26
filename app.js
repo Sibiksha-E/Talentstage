@@ -479,14 +479,28 @@ function renderHeroCinema(roleMode) {
       <div class="portal portal-left"></div>
       <div class="portal portal-right"></div>
       <div class="silhouette silhouette-left">
-        <div class="silhouette-head"></div>
+        <div class="silhouette-head">
+          <div class="silhouette-face"></div>
+          <div class="silhouette-hair"></div>
+          <div class="silhouette-ear"></div>
+        </div>
+        <div class="silhouette-neck"></div>
         <div class="silhouette-torso"></div>
+        <div class="silhouette-forearm silhouette-forearm-front"></div>
+        <div class="silhouette-hand silhouette-hand-front"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
       <div class="silhouette silhouette-right">
-        <div class="silhouette-head"></div>
+        <div class="silhouette-head">
+          <div class="silhouette-face"></div>
+          <div class="silhouette-hair"></div>
+          <div class="silhouette-ear"></div>
+        </div>
+        <div class="silhouette-neck"></div>
         <div class="silhouette-torso"></div>
+        <div class="silhouette-forearm silhouette-forearm-front"></div>
+        <div class="silhouette-hand silhouette-hand-front"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
@@ -496,6 +510,7 @@ function renderHeroCinema(roleMode) {
         <span></span>
         <span></span>
       </div>
+      <div class="handshake-link"></div>
       <div class="connection-arc connection-arc-left"></div>
       <div class="connection-arc connection-arc-right"></div>
       <div class="particle particle-a"></div>
