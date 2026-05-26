@@ -379,25 +379,25 @@ function renderDashboard() {
       ? "Find freelancers who fit the brief."
       : "Hiring marketplace for creators and freelancers";
   const supportingCopy = isFreelancer
-    ? "See open briefs, trusted client teams, and calm hiring signals in one place."
+    ? "Open briefs. Clear fit. Better work."
     : isClient
-      ? "Focus on verified freelancers, project fit, and fast hiring decisions."
-      : "A softer, clearer starting point for browsing clients, freelancers, and strong project matches.";
+      ? "Verified talent for faster hiring."
+      : "A calmer place to hire and get hired.";
   const browseLabel = isClient ? "Browse freelancers" : isFreelancer ? "Browse clients" : "Browse marketplace";
   const matchLabel = isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio";
   const quoteMarkup = isClient
-    ? `
-      <div class="hero-quote-line">
-        <span>"The right brief deserves the right person."</span>
+      ? `
+        <div class="hero-quote-line">
+        <span>"The right brief. The right fit."</span>
       </div>`
     : isFreelancer
       ? `
         <div class="hero-quote-line">
-          <span>"Good work grows where trust feels easy."</span>
+          <span>"Good work begins with trust."</span>
         </div>`
       : `
         <div class="hero-quote-line">
-          <span>"Great partnerships begin with clarity and trust."</span>
+          <span>"Clarity makes better partnerships."</span>
         </div>`;
   const spotlightMarkup =
     roleMode === "Client"
