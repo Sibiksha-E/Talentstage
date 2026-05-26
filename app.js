@@ -387,20 +387,17 @@ function renderDashboard() {
   const matchLabel = isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio";
   const quoteMarkup = isClient
     ? `
-      <div class="hero-quote-band">
-        <blockquote>"The right brief deserves the right person."</blockquote>
-        <p>Thoughtful discovery, trusted profiles, calmer hiring.</p>
+      <div class="hero-quote-line">
+        <span>"The right brief deserves the right person."</span>
       </div>`
     : isFreelancer
       ? `
-        <div class="hero-quote-band">
-          <blockquote>"Good work grows where trust feels easy."</blockquote>
-          <p>Clear opportunities, warm client signals, and room to do your best work.</p>
+        <div class="hero-quote-line">
+          <span>"Good work grows where trust feels easy."</span>
         </div>`
       : `
-        <div class="hero-quote-band">
-          <blockquote>"Great partnerships begin with clarity and trust."</blockquote>
-          <p>A serene marketplace for people who want better collaborations, not louder dashboards.</p>
+        <div class="hero-quote-line">
+          <span>"Great partnerships begin with clarity and trust."</span>
         </div>`;
   const spotlightMarkup =
     roleMode === "Client"
