@@ -422,9 +422,12 @@ function renderDashboard() {
           </div>
         </div>
       </div>
-      <div class="hero-spotlight">
-        ${spotlightMarkup}
+      <div class="hero-cinema" aria-hidden="true">
+        ${renderHeroCinema(roleMode)}
       </div>
+    </div>
+    <div class="hero-spotlight">
+      ${spotlightMarkup}
     </div>
     ${summaryMarkup}
   `;
@@ -436,6 +439,44 @@ function renderDashboard() {
       navigate("marketplace");
     });
   }
+}
+
+function renderHeroCinema(roleMode) {
+  const leftLabel = roleMode === "Client" ? "Trusted talent" : "Creative opportunity";
+  const rightLabel = roleMode === "Freelancer" ? "Open briefs" : "Trusted delivery";
+  return `
+    <div class="cinema-stage">
+      <div class="cinema-glow cinema-glow-left"></div>
+      <div class="cinema-glow cinema-glow-right"></div>
+      <div class="glass-panel glass-panel-top"></div>
+      <div class="glass-panel glass-panel-bottom"></div>
+      <div class="cinema-grid"></div>
+      <div class="silhouette silhouette-left">
+        <span class="silhouette-label">${leftLabel}</span>
+        <div class="silhouette-head"></div>
+        <div class="silhouette-torso"></div>
+        <div class="silhouette-arm silhouette-arm-front"></div>
+        <div class="silhouette-arm silhouette-arm-back"></div>
+      </div>
+      <div class="silhouette silhouette-right">
+        <span class="silhouette-label">${rightLabel}</span>
+        <div class="silhouette-head"></div>
+        <div class="silhouette-torso"></div>
+        <div class="silhouette-arm silhouette-arm-front"></div>
+        <div class="silhouette-arm silhouette-arm-back"></div>
+      </div>
+      <div class="handshake-core">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="connection-arc connection-arc-left"></div>
+      <div class="connection-arc connection-arc-right"></div>
+      <div class="particle particle-a"></div>
+      <div class="particle particle-b"></div>
+      <div class="particle particle-c"></div>
+    </div>
+  `;
 }
 
 function renderClientPreview(client) {
@@ -497,13 +538,17 @@ function renderCompactMatch(freelancer, options = {}) {
     <article class="summary-card profile-card">
       <div class="summary-cover profile-cover" style="${coverStyle(freelancer)}"></div>
       <div class="summary-body summary-panel">
-        <img class="compact-avatar summary-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
         <div class="inline-actions">
           ${showMatch ? `<span class="score">${scoreFreelancer(freelancer)}% AI match</span>` : `<span class="badge">Freelancer</span>`}
           <span class="status-badge">${freelancer.availability}</span>
         </div>
-        <h3>${freelancer.name}</h3>
-        <p>${freelancer.title}</p>
+        <div class="profile-inline">
+          <img class="preview-avatar summary-preview-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
+          <div>
+            <h3>${freelancer.name}</h3>
+            <p class="muted">${freelancer.title}</p>
+          </div>
+        </div>
         <p class="muted">${formatMoney(freelancer.rate)}/hr</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
@@ -520,13 +565,17 @@ function renderCompactClient(client) {
     <article class="summary-card client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
       <div class="summary-cover client-cover" style="${coverStyle(client)}"></div>
       <div class="summary-body summary-panel">
-        <img class="compact-avatar summary-avatar" src="${client.avatar}" alt="${client.name}" />
         <div class="inline-actions">
           <span class="chip">Client</span>
           <span class="status-badge">Open briefs</span>
         </div>
-        <h3>${client.name}</h3>
-        <p class="muted">${client.contact}</p>
+        <div class="profile-inline">
+          <img class="preview-avatar summary-preview-avatar" src="${client.avatar}" alt="${client.name}" />
+          <div>
+            <h3>${client.name}</h3>
+            <p class="muted">${client.contact}</p>
+          </div>
+        </div>
         <p>${client.needs}</p>
         <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
         <div class="card-actions">
