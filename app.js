@@ -5,6 +5,7 @@ const state = {
   identityVerified: false,
   proActive: false,
   profileCompleteness: 76,
+  searchTerm: "",
   proposals: [
     {
       id: "p1",
@@ -125,6 +126,7 @@ const clients = [
     title: "Product marketing team",
     budget: "INR 1.2L - 1.9L",
     needs: "Dashboard redesign, design system, launch support",
+    projects: ["SaaS analytics redesign", "Launch landing page", "Design system audit"],
     cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
   },
@@ -135,6 +137,7 @@ const clients = [
     title: "AI education startup",
     budget: "INR 60K - 1.1L",
     needs: "Video tutorials, motion graphics, thumbnails",
+    projects: ["Tutorial video series", "Motion intro pack", "Thumbnail system"],
     cover: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80"
   },
@@ -145,6 +148,7 @@ const clients = [
     title: "Payments platform",
     budget: "INR 90K - 1.5L",
     needs: "API docs, migration guides, sample snippets",
+    projects: ["Payments API docs", "Migration guide", "Sandbox examples"],
     cover: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80"
   }
@@ -252,6 +256,10 @@ function renderDashboard() {
           <p>The first screen is built to feel calm, premium, and immediate. Open a project, review a profile, or jump straight into AI matching without hunting through the app.</p>
         </div>
         <div class="hero-copy-bottom">
+          <div class="hero-search-row">
+            <input class="searchbar hero-search" id="heroSearch" placeholder="Search clients, freelancers, projects, or budgets" value="${state.searchTerm || ""}" />
+            <button class="primary-button" data-action="jump-marketplace">Search</button>
+          </div>
           <div class="hero-actions">
             <button class="primary-button" data-route-to="projects">Post a project</button>
             <button class="ghost-button" data-route-to="marketplace">Browse profiles</button>
@@ -279,6 +287,14 @@ function renderDashboard() {
       ${bestMatches.map(renderCompactMatch).join("")}
     </div>
   `;
+  const heroSearch = byId("heroSearch");
+  if (heroSearch) {
+    heroSearch.addEventListener("input", (event) => {
+      state.searchTerm = event.target.value;
+      renderAll();
+      navigate("marketplace");
+    });
+  }
 }
 
 function renderClientPreview(client) {
@@ -300,6 +316,10 @@ function renderClientPreview(client) {
         <p class="preview-title">${client.title}</p>
         <p>${client.needs}</p>
         <p class="muted">${client.budget}</p>
+        <div class="card-actions">
+          <button class="primary-button" data-action="view-client" data-name="${client.name}">Open profile</button>
+          <button class="ghost-button" data-action="message" data-name="${client.name}">Message</button>
+        </div>
       </div>
     </article>
   `;
@@ -342,13 +362,14 @@ function renderCompactMatch(freelancer) {
 }
 
 function renderMarketplace() {
+  const searchTerm = state.searchTerm || "";
   byId("marketplace").innerHTML = `
     <div class="toolbar">
       <div>
         <p class="eyebrow">Marketplace</p>
         <h2>Browse clients and freelancers</h2>
       </div>
-      <input class="searchbar" id="talentSearch" placeholder="Search names, skills, services, or budgets" />
+      <input class="searchbar" id="talentSearch" placeholder="Search names, skills, services, or budgets" value="${searchTerm}" />
     </div>
     <div class="section-stack">
       <section>
@@ -369,6 +390,7 @@ function renderMarketplace() {
   `;
   byId("talentSearch").addEventListener("input", (event) => {
     const term = event.target.value.toLowerCase();
+    state.searchTerm = event.target.value;
     byId("clientGrid").innerHTML = clients
       .filter((client) => `${client.name} ${client.contact} ${client.title} ${client.needs} ${client.budget}`.toLowerCase().includes(term))
       .map(renderClientCard)
@@ -382,17 +404,21 @@ function renderMarketplace() {
 
 function renderClientCard(client) {
   return `
-    <article class="client-card">
+    <article class="client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
       <div class="client-cover" style="--cover:url('${client.cover}')"></div>
       <div class="client-body">
         <img class="client-avatar" src="${client.avatar}" alt="${client.name}" />
-        <span class="chip">Client</span>
+        <div class="inline-actions">
+          <span class="chip">Client</span>
+          <span class="status-badge">Open briefs</span>
+        </div>
         <h3>${client.name}</h3>
         <p class="muted">${client.contact} - ${client.title}</p>
         <p>${client.needs}</p>
         <p class="muted">${client.budget}</p>
+        <div class="chips">${client.projects.map((project) => `<span class="chip">${project}</span>`).join("")}</div>
         <div class="card-actions">
-          <button class="primary-button" data-action="message" data-name="${client.name}">Open brief</button>
+          <button class="primary-button" data-action="view-client" data-name="${client.name}">Open profile</button>
           <button class="ghost-button" data-action="view-client" data-name="${client.name}">View profile</button>
         </div>
       </div>
@@ -706,8 +732,19 @@ function openClientProfile(name) {
       <p><strong>Contact:</strong> ${client.contact}</p>
       <p><strong>Project appetite:</strong> ${client.needs}</p>
       <p><strong>Budget:</strong> ${client.budget}</p>
+      <div class="chips">${client.projects.map((project) => `<span class="chip">${project}</span>`).join("")}</div>
       <div class="card-actions">
         <button class="primary-button" data-action="message" data-name="${client.name}">Message client</button>
+        <button class="ghost-button" data-action="view-client-projects" data-name="${client.name}">See projects</button>
+      </div>
+      <div class="timeline" style="margin-top:16px">
+        ${client.projects.map((project) => `
+          <div>
+            <strong>${project}</strong>
+            <span>View scope, milestones, and open hiring slots.</span>
+            <button class="small-button" data-action="message" data-name="${client.name}">Discuss</button>
+          </div>
+        `).join("")}
       </div>
     `
   );
@@ -827,6 +864,13 @@ function bindGlobalActions() {
     const id = target.dataset.id;
     if (action === "toggle-nav") document.querySelector(".sidebar").classList.toggle("open");
     if (action === "open-identity") openIdentityFlow();
+    if (action === "jump-marketplace") {
+      state.route = "marketplace";
+      state.searchTerm = byId("heroSearch")?.value || state.searchTerm;
+      renderAll();
+      navigate("marketplace");
+      setTimeout(() => byId("talentSearch")?.focus(), 0);
+    }
     if (action === "verify-identity") {
       state.identityVerified = true;
       byId("identityStatus").textContent = "Verified";
@@ -835,6 +879,7 @@ function bindGlobalActions() {
     }
     if (action === "view-profile") openProfile(id);
     if (action === "view-client") openClientProfile(target.dataset.name);
+    if (action === "view-client-projects") openClientProfile(target.dataset.name);
     if (action === "save-freelancer") {
       if (!state.savedFreelancers.includes(id)) state.savedFreelancers.push(id);
       showToast("Freelancer saved for future work.");
