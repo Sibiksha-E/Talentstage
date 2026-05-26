@@ -12,6 +12,7 @@ const state = {
       name: "Northstar Media",
       role: "Client",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      hiredDecision: null,
       messages: [
         { from: "them", text: "Can you share a cleaner dashboard direction by Thursday?" },
         { from: "me", text: "Yes, I can send a first pass with a stronger reporting layout." }
@@ -21,6 +22,7 @@ const state = {
       name: "Maya Rao",
       role: "Freelancer",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      hiredDecision: null,
       messages: [
         { from: "them", text: "I am ready to jump into the brief and map the first workflow." }
       ]
@@ -408,6 +410,7 @@ function openMessageThread(name, sentText) {
       name,
       role: contact?.kind || "Connection",
       avatar: contact?.avatar || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=300&q=80",
+      hiredDecision: null,
       messages: []
     };
     state.messageThreads.unshift(thread);
@@ -417,6 +420,31 @@ function openMessageThread(name, sentText) {
   }
   state.activeMessageThread = name;
   state.messageCenterOpen = true;
+}
+
+function openContractForm(threadName) {
+  const thread = state.messageThreads.find((item) => item.name === threadName);
+  if (!thread) return;
+  const isFreelancerThread = thread.role === "Freelancer";
+  const counterpartLabel = isFreelancerThread ? "Freelancer" : "Client";
+  const agreementTitle = isFreelancerThread ? `Hire ${thread.name}` : `Accept ${thread.name}'s invite`;
+  openModal(
+    "Contract confirmation",
+    `
+      <p class="muted">${agreementTitle} with a shared agreement both sides can confirm.</p>
+      <div class="form-grid">
+        <label>Project title<input class="field" id="contractTitle" value="${isFreelancerThread ? "Freelancer engagement" : "Accepted client brief"}" /></label>
+        <label>${counterpartLabel}<input class="field" id="contractParty" value="${thread.name}" /></label>
+        <label>Payment terms<input class="field" id="contractValue" value="${isFreelancerThread ? "INR 1,20,000 fixed" : "INR 80,000 fixed"}" /></label>
+        <label>Start date<input class="field" type="date" id="contractStart" value="2026-06-01" /></label>
+        <label class="full">Scope<textarea id="contractScope">Define deliverables, timeline, review rounds, and milestone approvals for both sides.</textarea></label>
+        <label class="full">Milestones<textarea id="contractMilestones">1. Discovery and kickoff\n2. First draft / prototype\n3. Final delivery and approval</textarea></label>
+        <label><input type="checkbox" id="clientConfirm" checked /> Client confirmation</label>
+        <label><input type="checkbox" id="freelancerConfirm" checked /> Freelancer confirmation</label>
+      </div>
+      <button class="primary-button" data-action="finalize-contract" data-name="${thread.name}">Confirm contract</button>
+    `
+  );
 }
 
 function renderMessageDock() {
@@ -429,6 +457,10 @@ function renderMessageDock() {
     0
   );
   dock.className = `message-dock${state.messageCenterOpen ? " open" : ""}`;
+  const isFreelancerThread = activeThread?.role === "Freelancer";
+  const decisionTitle = isFreelancerThread ? "Hire this freelancer?" : "Accept this invite?";
+  const confirmLabel = isFreelancerThread ? "Hire" : "Accept invite";
+  const pendingLabel = isFreelancerThread ? "Not hiring yet" : "Decide later";
   dock.innerHTML = `
     <button class="message-toggle" data-action="toggle-messages" aria-label="Open messages">
       <span class="message-toggle-icon">✉</span>
@@ -482,8 +514,33 @@ function renderMessageDock() {
                   )
                   .join("")}
               </div>
+              <div class="message-decision">
+                <strong>${decisionTitle}</strong>
+                <p class="muted">${
+                  activeThread.hiredDecision === true
+                    ? "Confirmed. You can proceed with the shared agreement and next workflow."
+                    : activeThread.hiredDecision === false
+                      ? "Not confirmed yet. Keep the thread open and return when ready."
+                      : "Confirm the next step here before moving into the agreement flow."
+                }</p>
+                <div class="card-actions">
+                  <button class="small-button" data-action="set-hired-decision" data-name="${activeThread.name}" data-value="yes">${confirmLabel}</button>
+                  <button class="small-button" data-action="set-hired-decision" data-name="${activeThread.name}" data-value="no">${pendingLabel}</button>
+                </div>
+                ${
+                  activeThread.hiredDecision === true
+                    ? `
+                    <div class="chips">
+                      <button class="small-button" data-action="open-contract-form" data-name="${activeThread.name}">Open contract form</button>
+                      <button class="small-button" data-action="message-next-step" data-name="${activeThread.name}" data-step="milestone">Set milestone</button>
+                    </div>
+                  `
+                    : ""
+                }
+              </div>
               <div class="message-composer">
-                <button class="small-button" data-action="send-thread-message" data-name="${activeThread.name}">Send follow-up</button>
+                <textarea id="messageDraft" class="message-input" placeholder="Type your message here..."></textarea>
+                <button class="primary-button" data-action="send-thread-message" data-name="${activeThread.name}">Send</button>
               </div>
             `
               : `<p class="muted">Open a profile message to start a thread.</p>`
@@ -580,6 +637,9 @@ function renderDashboard() {
           <p>${supportingCopy}</p>
           ${quoteMarkup}
         </div>
+        <div class="hero-cinema" aria-hidden="true">
+          ${renderHeroCinema(roleMode)}
+        </div>
         <div class="hero-copy-bottom">
           <div class="hero-search-stack">
             <input class="searchbar hero-search" id="heroSearch" placeholder="Search clients, freelancers, projects, or budgets" value="${state.searchTerm || ""}" />
@@ -604,9 +664,6 @@ function renderDashboard() {
             </div>
           </div>
         </div>
-      </div>
-      <div class="hero-cinema" aria-hidden="true">
-        ${renderHeroCinema(roleMode)}
       </div>
     </div>
     <div class="hero-spotlight">
@@ -1443,9 +1500,48 @@ function bindGlobalActions() {
       showToast(`Message saved in the side inbox for ${target.dataset.name}.`);
     }
     if (action === "send-thread-message") {
-      openMessageThread(target.dataset.name, "Following up with the latest project note.");
+      const draft = byId("messageDraft")?.value.trim() || "Following up with the latest project note.";
+      openMessageThread(target.dataset.name, draft);
+      const input = byId("messageDraft");
+      if (input) input.value = "";
       renderMessageDock();
       showToast(`Follow-up sent to ${target.dataset.name}.`);
+    }
+    if (action === "set-hired-decision") {
+      const thread = state.messageThreads.find((item) => item.name === target.dataset.name);
+      if (thread) {
+        thread.hiredDecision = target.dataset.value === "yes";
+        if (thread.hiredDecision) {
+          thread.messages.push({ from: "me", text: `${thread.role === "Freelancer" ? "Hiring confirmed" : "Invite accepted"} for ${thread.name}.` });
+        }
+      }
+      renderMessageDock();
+      if (target.dataset.value === "yes") {
+        openContractForm(target.dataset.name);
+      } else {
+        showToast("Thread kept open for later.");
+      }
+    }
+    if (action === "open-contract-form") openContractForm(target.dataset.name);
+    if (action === "message-next-step") {
+      const thread = state.messageThreads.find((item) => item.name === target.dataset.name);
+      const stepMap = {
+        milestone: "Set the first milestone and payment terms."
+      };
+      if (thread) thread.messages.push({ from: "me", text: stepMap[target.dataset.step] || "Moved to the next hiring step." });
+      renderMessageDock();
+      showToast("Next hiring step added to the thread.");
+    }
+    if (action === "finalize-contract") {
+      const thread = state.messageThreads.find((item) => item.name === target.dataset.name);
+      if (thread) {
+        const title = byId("contractTitle")?.value || "Contract";
+        const payment = byId("contractValue")?.value || "Payment terms set";
+        thread.messages.push({ from: "me", text: `Contract confirmed: ${title} with ${payment}.` });
+      }
+      byId("modal").close();
+      renderMessageDock();
+      showToast("Contract confirmed for both sides.");
     }
     if (action === "post-project") postProjectForm();
     if (action === "create-project") {
@@ -1541,6 +1637,7 @@ function bindGlobalActions() {
 
 function navigate(route) {
   state.route = route;
+  document.body.dataset.route = route;
   document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active-view", view.id === route));
   document.querySelectorAll(".nav-link").forEach((link) => link.classList.toggle("active", link.dataset.route === route));
   document.querySelector(".sidebar").classList.remove("open");
