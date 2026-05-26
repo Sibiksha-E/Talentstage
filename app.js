@@ -431,8 +431,7 @@ function renderMessageDock() {
   dock.className = `message-dock${state.messageCenterOpen ? " open" : ""}`;
   dock.innerHTML = `
     <button class="message-toggle" data-action="toggle-messages" aria-label="Open messages">
-      <span class="message-toggle-icon">+</span>
-      <span class="message-toggle-label">Messages</span>
+      <span class="message-toggle-icon">✉</span>
       <span class="message-toggle-count">${unreadCount}</span>
     </button>
     <section class="message-panel">
