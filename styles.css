@@ -440,6 +440,19 @@ p {
   filter: brightness(0.96);
 }
 
+.hire-button {
+  position: relative;
+  padding-inline: 18px;
+  background: linear-gradient(135deg, #1f7a67, #c9633f);
+  box-shadow: 0 10px 22px rgba(31, 122, 103, 0.18);
+}
+
+.hire-button::after {
+  content: "->";
+  margin-left: 8px;
+  font-weight: 800;
+}
+
 .ghost-button {
   background: #fff;
   color: var(--ink);
@@ -506,6 +519,16 @@ p {
 .feed-item,
 .contract-row {
   padding: 18px;
+}
+
+.summary-card {
+  min-height: 228px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-card .small-button {
+  margin-top: auto;
 }
 
 .stat strong {

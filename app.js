@@ -376,7 +376,7 @@ function renderDashboard() {
           </div>`;
   const summaryMarkup =
     roleMode === "Client"
-      ? `<div class="three-col">${bestFreelancers.map(renderCompactMatch).join("")}</div>`
+      ? `<div class="three-col">${bestFreelancers.map((freelancer) => renderCompactMatch(freelancer, { showMatch: true })).join("")}</div>`
       : roleMode === "Freelancer"
         ? `<div class="three-col">${clients.slice(0, 3).map(renderCompactClient).join("")}</div>`
         : `<div class="dashboard-summaries">
@@ -386,7 +386,7 @@ function renderDashboard() {
             </section>
             <section>
               <p class="eyebrow">Freelancers</p>
-              <div class="three-col">${bestFreelancers.map(renderCompactMatch).join("")}</div>
+              <div class="three-col">${bestFreelancers.map((freelancer) => renderCompactMatch(freelancer, { showMatch: false })).join("")}</div>
             </section>
           </div>`;
   byId("dashboard").innerHTML = `
@@ -476,13 +476,14 @@ function renderDashboardFreelancerPreview(freelancer) {
   `;
 }
 
-function renderCompactMatch(freelancer) {
+function renderCompactMatch(freelancer, options = {}) {
+  const { showMatch = true } = options;
   return `
-    <article class="card">
+    <article class="card summary-card">
       <div class="compact-head">
         <img class="compact-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
         <div>
-          <span class="score">${scoreFreelancer(freelancer)}% AI match</span>
+          ${showMatch ? `<span class="score">${scoreFreelancer(freelancer)}% AI match</span>` : `<span class="badge">Freelancer</span>`}
           <h3>${freelancer.name}</h3>
         </div>
       </div>
@@ -495,7 +496,7 @@ function renderCompactMatch(freelancer) {
 
 function renderCompactClient(client) {
   return `
-    <article class="card">
+    <article class="card summary-card">
       <div class="compact-head">
         <img class="compact-avatar" src="${client.avatar}" alt="${client.name}" />
         <div>
@@ -602,8 +603,8 @@ function renderFreelancerCard(freelancer) {
         <div class="chips">${freelancer.skills.map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="chips">${freelancer.verified.map((badge) => `<span class="badge">${badge}</span>`).join("")}</div>
         <div class="card-actions">
-          <button class="primary-button" data-action="view-profile" data-id="${freelancer.id}">Profile</button>
-          <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Message</button>
+          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
+          <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Start chat</button>
           <button class="icon-button" title="Save freelancer" data-action="save-freelancer" data-id="${freelancer.id}">${saved ? "Saved" : "+"}</button>
         </div>
       </div>
