@@ -479,35 +479,46 @@ function renderDashboardFreelancerPreview(freelancer) {
 function renderCompactMatch(freelancer, options = {}) {
   const { showMatch = true } = options;
   return `
-    <article class="card summary-card">
-      <div class="compact-head">
-        <img class="compact-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
-        <div>
+    <article class="summary-card profile-card">
+      <div class="summary-cover profile-cover" style="--cover:url('${freelancer.cover}')"></div>
+      <div class="summary-body profile-body">
+        <img class="compact-avatar summary-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
+        <div class="inline-actions">
           ${showMatch ? `<span class="score">${scoreFreelancer(freelancer)}% AI match</span>` : `<span class="badge">Freelancer</span>`}
-          <h3>${freelancer.name}</h3>
+          <span class="status-badge">${freelancer.availability}</span>
+        </div>
+        <h3>${freelancer.name}</h3>
+        <p>${freelancer.title}</p>
+        <p class="muted">${formatMoney(freelancer.rate)}/hr</p>
+        <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
+        <div class="card-actions">
+          <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
+          <button class="ghost-button" data-action="message" data-name="${freelancer.name}">Start chat</button>
         </div>
       </div>
-      <p>${freelancer.title}</p>
-      <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
-      <button class="small-button" data-action="view-profile" data-id="${freelancer.id}">View profile</button>
     </article>
   `;
 }
 
 function renderCompactClient(client) {
   return `
-    <article class="card summary-card">
-      <div class="compact-head">
-        <img class="compact-avatar" src="${client.avatar}" alt="${client.name}" />
-        <div>
+    <article class="summary-card client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
+      <div class="summary-cover client-cover" style="--cover:url('${client.cover}')"></div>
+      <div class="summary-body client-body">
+        <img class="compact-avatar summary-avatar" src="${client.avatar}" alt="${client.name}" />
+        <div class="inline-actions">
           <span class="chip">Client</span>
-          <h3>${client.name}</h3>
+          <span class="status-badge">Open briefs</span>
+        </div>
+        <h3>${client.name}</h3>
+        <p class="muted">${client.contact}</p>
+        <p>${client.needs}</p>
+        <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
+        <div class="card-actions">
+          <button class="primary-button" data-action="view-client" data-name="${client.name}">Open profile</button>
+          <button class="ghost-button" data-action="message" data-name="${client.name}">Message</button>
         </div>
       </div>
-      <p class="muted">${client.contact}</p>
-      <p>${client.needs}</p>
-      <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
-      <button class="small-button" data-action="view-client" data-name="${client.name}">View profile</button>
     </article>
   `;
 }

@@ -522,12 +522,30 @@ p {
 }
 
 .summary-card {
-  min-height: 228px;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-.summary-card .small-button {
+.summary-cover {
+  height: 124px;
+}
+
+.summary-body {
+  display: grid;
+  gap: 12px;
+  min-height: 100%;
+}
+
+.summary-avatar {
+  width: 64px;
+  height: 64px;
+  margin-top: -48px;
+  border-width: 3px;
+}
+
+.summary-card .card-actions {
   margin-top: auto;
 }
 
