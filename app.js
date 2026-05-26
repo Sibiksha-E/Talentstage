@@ -214,7 +214,7 @@ function renderDashboard() {
         <div>
           <p class="eyebrow">TalentStage marketplace</p>
           <h2>Hire sharper. Showcase better. Collaborate with confidence.</h2>
-          <p>A complete hackathon-ready product surface for freelancers and clients: portfolios, proposals, AI ranking, contracts, milestones, reviews, community, and simulated payments.</p>
+          <p>A clean workspace for portfolios, proposals, AI ranking, contracts, milestones, reviews, community, and sandbox payments.</p>
         </div>
         <div class="hero-actions">
           <button class="primary-button" data-route-to="projects">Post a project</button>
@@ -541,7 +541,7 @@ function renderPayments() {
 }
 
 function openModal(title, body) {
-  byId("modalContent").innerHTML = `<h2>${title}</h2>${body}`;
+  byId("modalContent").innerHTML = `<div class="modal-header"><h2>${title}</h2></div>${body}`;
   byId("modal").showModal();
 }
 
