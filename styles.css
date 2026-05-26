@@ -327,6 +327,17 @@ p {
   gap: 14px;
 }
 
+.dashboard-trio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.dashboard-trio > div {
+  display: grid;
+}
+
 .dashboard-duo {
   display: grid;
   gap: 14px;
@@ -366,6 +377,119 @@ p {
   padding: 18px;
   display: grid;
   gap: 12px;
+}
+
+.hero-motion {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 242, 236, 0.98));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.hero-motion-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hero-motion-track {
+  position: relative;
+  min-height: 220px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(31, 122, 103, 0.08), rgba(49, 96, 143, 0.08)),
+    #fff;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.hero-motion-track::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(31, 122, 103, 0.16), rgba(49, 96, 143, 0.45), rgba(201, 99, 63, 0.16));
+}
+
+.hero-motion-orbit {
+  position: absolute;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 99px;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--teal), var(--coral));
+  box-shadow: 0 0 0 8px rgba(31, 122, 103, 0.08);
+  animation: moveBridge 3.6s ease-in-out infinite;
+}
+
+.hero-motion-orbit-top {
+  top: 24px;
+}
+
+.hero-motion-orbit-mid {
+  top: 50%;
+  animation-delay: 1.2s;
+}
+
+.hero-motion-orbit-bottom {
+  top: calc(100% - 38px);
+  animation-delay: 2.4s;
+}
+
+.hero-motion-body {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-motion-step {
+  padding: 11px 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 4px;
+}
+
+.hero-motion-step.active {
+  border-color: rgba(31, 122, 103, 0.28);
+  background: rgba(31, 122, 103, 0.06);
+}
+
+.hero-motion-step strong {
+  font-size: 0.95rem;
+}
+
+.hero-motion-step span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.hero-motion-caption {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+@keyframes moveBridge {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translateX(-50%) translateY(12px);
+    opacity: 1;
+  }
 }
 
 .profile-inline {
@@ -901,6 +1025,10 @@ label {
   }
 
   .hero-search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-trio {
     grid-template-columns: 1fr;
   }
 

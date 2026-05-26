@@ -365,10 +365,13 @@ function renderDashboard() {
       ? renderDashboardFreelancerPreview(featuredFreelancer)
       : roleMode === "Freelancer"
         ? renderClientPreview(featuredClient)
-        : `<div class="dashboard-duo">
+        : `<div class="dashboard-trio">
             <div>
               <p class="eyebrow">Client side</p>
               ${renderClientPreview(featuredClient)}
+            </div>
+            <div>
+              ${renderMotionBridge(featuredClient, featuredFreelancer)}
             </div>
             <div>
               <p class="eyebrow">Freelancer side</p>
@@ -480,6 +483,37 @@ function renderDashboardFreelancerPreview(freelancer) {
         <p>${freelancer.availability}</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
       </div>
+    </article>
+  `;
+}
+
+function renderMotionBridge(client, freelancer) {
+  return `
+    <article class="hero-motion" aria-label="Live workflow bridge">
+      <div class="hero-motion-top">
+        <span class="chip">Live flow</span>
+        <span class="status-badge">Both mode</span>
+      </div>
+      <div class="hero-motion-track">
+        <span class="hero-motion-orbit hero-motion-orbit-top"></span>
+        <span class="hero-motion-orbit hero-motion-orbit-mid"></span>
+        <span class="hero-motion-orbit hero-motion-orbit-bottom"></span>
+      </div>
+      <div class="hero-motion-body">
+        <div class="hero-motion-step">
+          <strong>${client.name}</strong>
+          <span>Brief posted</span>
+        </div>
+        <div class="hero-motion-step active">
+          <strong>AI match</strong>
+          <span>${scoreFreelancer(freelancer)}% fit</span>
+        </div>
+        <div class="hero-motion-step">
+          <strong>${freelancer.name}</strong>
+          <span>Proposal ready</span>
+        </div>
+      </div>
+      <p class="muted hero-motion-caption">A moving bridge shows the brief traveling from client intent to freelancer response.</p>
     </article>
   `;
 }
