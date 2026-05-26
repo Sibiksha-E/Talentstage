@@ -4,7 +4,6 @@ const state = {
   savedFreelancers: ["maya"],
   identityVerified: false,
   proActive: false,
-  profileCompleteness: 76,
   searchTerm: "",
   proposals: [
     {
@@ -415,12 +414,6 @@ function renderDashboard() {
       <div class="hero-spotlight">
         ${spotlightMarkup}
       </div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat"><span>Profile completeness</span><strong>${state.profileCompleteness}%</strong><div class="progress" style="--value:${state.profileCompleteness}%"><span></span></div></div>
-      <div class="stat"><span>${isFreelancer ? "Open briefs" : isClient ? "Top candidates" : "AI match quality"}</span><strong>${isFreelancer ? projects.length : scoreFreelancer(featuredFreelancer)}${isFreelancer ? "" : "%"}</strong><p class="muted">${isFreelancer ? "Active projects ready for proposals" : "Top candidate for current brief"}</p></div>
-      <div class="stat"><span>${isFreelancer ? "Client briefs" : isClient ? "Freelancer profiles" : "Escrow milestones"}</span><strong>${isFreelancer ? clients.length : isClient ? freelancers.length : formatMoney(180000)}</strong><p class="muted">${isFreelancer ? "Clients ready to hire" : isClient ? "Verified talent ready to review" : "10% platform commission simulated"}</p></div>
-      <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">${isFreelancer ? "Freelancer workflow" : isClient ? "Client workflow" : "Single account can operate as both"}</p></div>
     </div>
     ${summaryMarkup}
   `;
