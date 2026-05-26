@@ -354,12 +354,42 @@ function getRoleMode() {
 }
 
 function renderDashboard() {
-  const bestMatches = [...freelancers].sort((a, b) => scoreFreelancer(b) - scoreFreelancer(a)).slice(0, 3);
+  const bestFreelancers = [...freelancers].sort((a, b) => scoreFreelancer(b) - scoreFreelancer(a)).slice(0, 3);
   const featuredClient = clients[0];
-  const featuredFreelancer = bestMatches[0];
+  const featuredFreelancer = bestFreelancers[0];
   const roleMode = getRoleMode();
   const isFreelancer = roleMode === "Freelancer";
   const isClient = roleMode === "Client";
+  const spotlightMarkup =
+    roleMode === "Client"
+      ? renderDashboardFreelancerPreview(featuredFreelancer)
+      : roleMode === "Freelancer"
+        ? renderClientPreview(featuredClient)
+        : `<div class="dashboard-duo">
+            <div>
+              <p class="eyebrow">Client side</p>
+              ${renderClientPreview(featuredClient)}
+            </div>
+            <div>
+              <p class="eyebrow">Freelancer side</p>
+              ${renderDashboardFreelancerPreview(featuredFreelancer)}
+            </div>
+          </div>`;
+  const summaryMarkup =
+    roleMode === "Client"
+      ? `<div class="three-col">${bestFreelancers.map(renderCompactMatch).join("")}</div>`
+      : roleMode === "Freelancer"
+        ? `<div class="three-col">${clients.slice(0, 3).map(renderCompactClient).join("")}</div>`
+        : `<div class="dashboard-summaries">
+            <section>
+              <p class="eyebrow">Clients</p>
+              <div class="three-col">${clients.slice(0, 3).map(renderCompactClient).join("")}</div>
+            </section>
+            <section>
+              <p class="eyebrow">Freelancers</p>
+              <div class="three-col">${bestFreelancers.map(renderCompactMatch).join("")}</div>
+            </section>
+          </div>`;
   byId("dashboard").innerHTML = `
     <div class="hero hero-stage">
       <div class="hero-panel hero-copy">
@@ -381,9 +411,7 @@ function renderDashboard() {
         </div>
       </div>
       <div class="hero-spotlight">
-        ${roleMode === "Client" ? renderClientPreview(featuredClient) : ""}
-        ${roleMode === "Freelancer" ? renderDashboardFreelancerPreview(featuredFreelancer) : ""}
-        ${roleMode === "Both" ? renderClientPreview(featuredClient) + renderDashboardFreelancerPreview(featuredFreelancer) : ""}
+        ${spotlightMarkup}
       </div>
     </div>
     <div class="stat-grid">
@@ -392,9 +420,7 @@ function renderDashboard() {
       <div class="stat"><span>Escrow milestones</span><strong>${formatMoney(180000)}</strong><p class="muted">10% platform commission simulated</p></div>
       <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">${isFreelancer ? "Freelancer workflow" : isClient ? "Client workflow" : "Single account can operate as both"}</p></div>
     </div>
-    <div class="three-col">
-      ${bestMatches.map(renderCompactMatch).join("")}
-    </div>
+    ${summaryMarkup}
   `;
   const heroSearch = byId("heroSearch");
   if (heroSearch) {
@@ -470,6 +496,19 @@ function renderCompactMatch(freelancer) {
   `;
 }
 
+function renderCompactClient(client) {
+  return `
+    <article class="card">
+      <span class="chip">Client</span>
+      <h3>${client.name}</h3>
+      <p class="muted">${client.contact}</p>
+      <p>${client.needs}</p>
+      <div class="chips">${client.projects.slice(0, 2).map((project) => `<span class="badge">${project}</span>`).join("")}</div>
+      <button class="small-button" data-action="view-client" data-name="${client.name}">View profile</button>
+    </article>
+  `;
+}
+
 function renderMarketplace() {
   const searchTerm = state.searchTerm || "";
   const roleMode = getRoleMode();
@@ -482,19 +521,19 @@ function renderMarketplace() {
       <input class="searchbar" id="talentSearch" placeholder="Search names, skills, services, or budgets" value="${searchTerm}" />
     </div>
     <div class="section-stack">
-      ${roleMode !== "Freelancer" ? `
-      <section>
-        <div class="section-heading">
-          <h3>Client profiles</h3>
-          <p class="muted">Each profile shows a background image, contact point, and project appetite.</p>
-        </div>
-        <div class="grid three-col" id="clientGrid">${clients.map(renderClientCard).join("")}</div>
-      </section>` : ""}
       ${roleMode !== "Client" ? `
       <section>
         <div class="section-heading">
+          <h3>Client profiles</h3>
+          <p class="muted">${roleMode === "Freelancer" ? "Client details and what they need from freelancers." : "Each profile shows a background image, contact point, and project appetite."}</p>
+        </div>
+        <div class="grid three-col" id="clientGrid">${clients.map(renderClientCard).join("")}</div>
+      </section>` : ""}
+      ${roleMode !== "Freelancer" ? `
+      <section>
+        <div class="section-heading">
           <h3>Freelancer profiles</h3>
-          <p class="muted">Search remains available for quick comparison across both sides of the marketplace.</p>
+          <p class="muted">${roleMode === "Client" ? "Verified freelancers and their full portfolio details." : "Search remains available for quick comparison across both sides of the marketplace."}</p>
         </div>
         <div class="grid three-col" id="freelancerGrid">${freelancers.map(renderFreelancerCard).join("")}</div>
       </section>` : ""}

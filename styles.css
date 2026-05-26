@@ -327,6 +327,26 @@ p {
   gap: 14px;
 }
 
+.dashboard-duo {
+  display: grid;
+  gap: 14px;
+}
+
+.dashboard-duo > div {
+  display: grid;
+  gap: 8px;
+}
+
+.dashboard-summaries {
+  display: grid;
+  gap: 18px;
+}
+
+.dashboard-summaries section {
+  display: grid;
+  gap: 12px;
+}
+
 .hero-preview {
   overflow: hidden;
   border-radius: 8px;
