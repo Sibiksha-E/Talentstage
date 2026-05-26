@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentStage | Freelancer Portfolio + Hiring Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary">
+        <a class="brand" href="#dashboard" aria-label="TalentStage home">
+          <span class="brand-mark">TS</span>
+          <span>
+            <strong>TalentStage</strong>
+            <small>Creator hiring hub</small>
+          </span>
+        </a>
+
+        <nav class="nav-list">
+          <a href="#dashboard" class="nav-link active" data-route="dashboard">Dashboard</a>
+          <a href="#marketplace" class="nav-link" data-route="marketplace">Marketplace</a>
+          <a href="#projects" class="nav-link" data-route="projects">Projects</a>
+          <a href="#portfolio" class="nav-link" data-route="portfolio">Portfolio</a>
+          <a href="#ai" class="nav-link" data-route="ai">AI Studio</a>
+          <a href="#contracts" class="nav-link" data-route="contracts">Contracts</a>
+          <a href="#community" class="nav-link" data-route="community">Community</a>
+          <a href="#payments" class="nav-link" data-route="payments">Payments</a>
+        </nav>
+
+        <div class="identity-card">
+          <span class="status-dot"></span>
+          <p>Identity verification</p>
+          <strong id="identityStatus">LinkedIn pending</strong>
+          <button class="small-button" data-action="open-identity">Complete flow</button>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <button class="menu-button" data-action="toggle-nav" aria-label="Toggle navigation">Menu</button>
+          <div>
+            <p class="eyebrow">Problem Statement 4</p>
+            <h1>Creator and Freelancer Portfolio + Hiring Marketplace</h1>
+          </div>
+          <div class="role-switch" aria-label="Choose account role">
+            <button class="role-pill active" data-role="Both">Both</button>
+            <button class="role-pill" data-role="Freelancer">Freelancer</button>
+            <button class="role-pill" data-role="Client">Client</button>
+          </div>
+        </header>
+
+        <section id="dashboard" class="view active-view"></section>
+        <section id="marketplace" class="view"></section>
+        <section id="projects" class="view"></section>
+        <section id="portfolio" class="view"></section>
+        <section id="ai" class="view"></section>
+        <section id="contracts" class="view"></section>
+        <section id="community" class="view"></section>
+        <section id="payments" class="view"></section>
+      </main>
+    </div>
+
+    <dialog id="modal" class="modal">
+      <form method="dialog">
+        <button class="modal-close" aria-label="Close">Close</button>
+      </form>
+      <div id="modalContent"></div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
