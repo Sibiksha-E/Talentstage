@@ -4,7 +4,28 @@ const state = {
   savedFreelancers: ["maya"],
   identityVerified: false,
   proActive: false,
+  messageCenterOpen: false,
+  activeMessageThread: "Northstar Media",
   searchTerm: "",
+  messageThreads: [
+    {
+      name: "Northstar Media",
+      role: "Client",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      messages: [
+        { from: "them", text: "Can you share a cleaner dashboard direction by Thursday?" },
+        { from: "me", text: "Yes, I can send a first pass with a stronger reporting layout." }
+      ]
+    },
+    {
+      name: "Maya Rao",
+      role: "Freelancer",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      messages: [
+        { from: "them", text: "I am ready to jump into the brief and map the first workflow." }
+      ]
+    }
+  ],
   proposals: [
     {
       id: "p1",
@@ -369,6 +390,109 @@ function showToast(message) {
 
 function getRoleMode() {
   return state.role === "Both" ? "Both" : state.role;
+}
+
+function findContact(name) {
+  const freelancer = freelancers.find((item) => item.name === name);
+  if (freelancer) return { ...freelancer, kind: "Freelancer" };
+  const client = clients.find((item) => item.name === name);
+  if (client) return { ...client, kind: "Client" };
+  return null;
+}
+
+function openMessageThread(name, sentText) {
+  const contact = findContact(name);
+  let thread = state.messageThreads.find((item) => item.name === name);
+  if (!thread) {
+    thread = {
+      name,
+      role: contact?.kind || "Connection",
+      avatar: contact?.avatar || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=300&q=80",
+      messages: []
+    };
+    state.messageThreads.unshift(thread);
+  }
+  if (sentText) {
+    thread.messages.push({ from: "me", text: sentText });
+  }
+  state.activeMessageThread = name;
+  state.messageCenterOpen = true;
+}
+
+function renderMessageDock() {
+  const dock = byId("messageDock");
+  if (!dock) return;
+  const activeThread =
+    state.messageThreads.find((item) => item.name === state.activeMessageThread) || state.messageThreads[0];
+  const unreadCount = state.messageThreads.reduce(
+    (count, thread) => count + thread.messages.filter((message) => message.from === "them").length,
+    0
+  );
+  dock.className = `message-dock${state.messageCenterOpen ? " open" : ""}`;
+  dock.innerHTML = `
+    <button class="message-toggle" data-action="toggle-messages" aria-label="Open messages">
+      <span class="message-toggle-icon">+</span>
+      <span class="message-toggle-label">Messages</span>
+      <span class="message-toggle-count">${unreadCount}</span>
+    </button>
+    <section class="message-panel">
+      <div class="message-panel-top">
+        <div>
+          <p class="eyebrow">Messages</p>
+          <h3>Sent threads</h3>
+        </div>
+        <button class="icon-button message-close" data-action="toggle-messages" aria-label="Close messages">x</button>
+      </div>
+      <div class="message-layout">
+        <div class="message-thread-list">
+          ${state.messageThreads
+            .map((thread) => {
+              const lastMessage = thread.messages[thread.messages.length - 1]?.text || "No messages yet";
+              return `
+                <button class="message-thread${thread.name === activeThread?.name ? " active" : ""}" data-action="open-thread" data-name="${thread.name}">
+                  <img src="${thread.avatar}" alt="${thread.name}" />
+                  <span>
+                    <strong>${thread.name}</strong>
+                    <small>${thread.role}</small>
+                    <em>${lastMessage}</em>
+                  </span>
+                </button>
+              `;
+            })
+            .join("")}
+        </div>
+        <div class="message-conversation">
+          ${
+            activeThread
+              ? `
+              <div class="message-conversation-head">
+                <img src="${activeThread.avatar}" alt="${activeThread.name}" />
+                <div>
+                  <strong>${activeThread.name}</strong>
+                  <span>${activeThread.role}</span>
+                </div>
+              </div>
+              <div class="message-stream">
+                ${activeThread.messages
+                  .map(
+                    (message) => `
+                    <div class="message-bubble ${message.from === "me" ? "sent" : "received"}">
+                      ${message.text}
+                    </div>
+                  `
+                  )
+                  .join("")}
+              </div>
+              <div class="message-composer">
+                <button class="small-button" data-action="send-thread-message" data-name="${activeThread.name}">Send follow-up</button>
+              </div>
+            `
+              : `<p class="muted">Open a profile message to start a thread.</p>`
+          }
+        </div>
+      </div>
+    </section>
+  `;
 }
 
 function getProfileCompleteness(freelancer = freelancers[0]) {
@@ -1283,6 +1407,15 @@ function bindGlobalActions() {
     const action = target.dataset.action;
     const id = target.dataset.id;
     if (action === "toggle-nav") document.querySelector(".sidebar").classList.toggle("open");
+    if (action === "toggle-messages") {
+      state.messageCenterOpen = !state.messageCenterOpen;
+      renderMessageDock();
+    }
+    if (action === "open-thread") {
+      state.activeMessageThread = target.dataset.name;
+      state.messageCenterOpen = true;
+      renderMessageDock();
+    }
     if (action === "open-identity") openIdentityFlow();
     if (action === "jump-marketplace") {
       state.route = "marketplace";
@@ -1305,7 +1438,16 @@ function bindGlobalActions() {
       showToast("Freelancer saved for future work.");
       renderAll();
     }
-    if (action === "message") showToast(`Message thread opened with ${target.dataset.name}.`);
+    if (action === "message") {
+      openMessageThread(target.dataset.name, `Sent a quick hello to ${target.dataset.name}.`);
+      renderMessageDock();
+      showToast(`Message saved in the side inbox for ${target.dataset.name}.`);
+    }
+    if (action === "send-thread-message") {
+      openMessageThread(target.dataset.name, "Following up with the latest project note.");
+      renderMessageDock();
+      showToast(`Follow-up sent to ${target.dataset.name}.`);
+    }
     if (action === "post-project") postProjectForm();
     if (action === "create-project") {
       projects.unshift({
@@ -1415,6 +1557,7 @@ function renderAll() {
   renderContracts();
   renderCommunity();
   renderPayments();
+  renderMessageDock();
   navigate(state.route);
 }
 
