@@ -407,9 +407,8 @@ function renderDashboard() {
             <button class="primary-button" data-action="jump-marketplace">Search</button>
           </div>
           <div class="hero-actions">
-            ${isClient ? `<button class="primary-button" data-route-to="projects">Post a project</button>` : `<button class="primary-button" data-route-to="marketplace">Browse briefs</button>`}
-            <button class="ghost-button" data-route-to="marketplace">${isFreelancer ? "Browse clients" : isClient ? "Browse freelancers" : "Browse profiles"}</button>
-            <button class="ghost-button" data-route-to="ai">Open AI Studio</button>
+            ${isClient ? `<button class="primary-button" data-route-to="marketplace">Browse freelancers</button>` : isFreelancer ? `<button class="primary-button" data-route-to="marketplace">Browse clients</button>` : `<button class="primary-button" data-route-to="marketplace">Browse profiles</button>`}
+            <button class="ghost-button" data-route-to="ai">${isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio"}</button>
           </div>
         </div>
       </div>
@@ -420,7 +419,7 @@ function renderDashboard() {
     <div class="stat-grid">
       <div class="stat"><span>Profile completeness</span><strong>${state.profileCompleteness}%</strong><div class="progress" style="--value:${state.profileCompleteness}%"><span></span></div></div>
       <div class="stat"><span>${isFreelancer ? "Open briefs" : isClient ? "Top candidates" : "AI match quality"}</span><strong>${isFreelancer ? projects.length : scoreFreelancer(featuredFreelancer)}${isFreelancer ? "" : "%"}</strong><p class="muted">${isFreelancer ? "Active projects ready for proposals" : "Top candidate for current brief"}</p></div>
-      <div class="stat"><span>Escrow milestones</span><strong>${formatMoney(180000)}</strong><p class="muted">10% platform commission simulated</p></div>
+      <div class="stat"><span>${isFreelancer ? "Client briefs" : isClient ? "Freelancer profiles" : "Escrow milestones"}</span><strong>${isFreelancer ? clients.length : isClient ? freelancers.length : formatMoney(180000)}</strong><p class="muted">${isFreelancer ? "Clients ready to hire" : isClient ? "Verified talent ready to review" : "10% platform commission simulated"}</p></div>
       <div class="stat"><span>Active role</span><strong>${state.role}</strong><p class="muted">${isFreelancer ? "Freelancer workflow" : isClient ? "Client workflow" : "Single account can operate as both"}</p></div>
     </div>
     ${summaryMarkup}
