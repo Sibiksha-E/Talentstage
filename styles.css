@@ -526,27 +526,51 @@ p {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .summary-cover {
-  height: 124px;
+  height: 136px;
+}
+
+.summary-card .profile-cover,
+.summary-card .client-cover {
+  height: 136px;
 }
 
 .summary-body {
   display: grid;
   gap: 12px;
   min-height: 100%;
+  align-content: start;
+}
+
+.summary-card .profile-body,
+.summary-card .client-body {
+  padding: 20px 18px 18px;
 }
 
 .summary-avatar {
-  width: 64px;
-  height: 64px;
-  margin-top: -48px;
+  width: 68px;
+  height: 68px;
+  margin-top: -42px;
   border-width: 3px;
+  position: relative;
+  z-index: 1;
 }
 
 .summary-card .card-actions {
   margin-top: auto;
+}
+
+.summary-card h3,
+.summary-card p {
+  margin-bottom: 0;
+}
+
+.summary-card .inline-actions {
+  min-height: 32px;
+  align-items: center;
 }
 
 .stat strong {
