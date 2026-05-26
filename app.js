@@ -63,7 +63,23 @@ const freelancers = [
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
     portfolioQuality: 96,
     budgetFit: 92,
-    reviews: ["Clear discovery, fast revisions, excellent final handoff.", "Her prototype helped us close seed clients."]
+    reviews: ["Clear discovery, fast revisions, excellent final handoff.", "Her prototype helped us close seed clients."],
+    projects: [
+      {
+        title: "PulseOps Dashboard",
+        category: "Product design",
+        tools: "Figma, Maze, Webflow",
+        summary: "Reduced admin review time by 31% with a cleaner reporting flow.",
+        image: "https://images.unsplash.com/photo-1559028006-448665bd7e86?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "CreatorKit Website",
+        category: "Web build",
+        tools: "Webflow, Lottie",
+        summary: "Launched a conversion-focused marketing site for a creator tool.",
+        image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80"
+      }
+    ]
   },
   {
     id: "arjun",
@@ -80,7 +96,23 @@ const freelancers = [
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
     portfolioQuality: 88,
     budgetFit: 96,
-    reviews: ["Performance-minded and communicates tradeoffs well.", "Delivered a polished React app ahead of schedule."]
+    reviews: ["Performance-minded and communicates tradeoffs well.", "Delivered a polished React app ahead of schedule."],
+    projects: [
+      {
+        title: "Fintech onboarding build",
+        category: "Frontend engineering",
+        tools: "React, TypeScript, Node",
+        summary: "Cut onboarding friction with a responsive flow and reusable components.",
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "Motion dashboard system",
+        category: "Interface animation",
+        tools: "GSAP, React, SVG",
+        summary: "Introduced motion details that made a dense product feel lighter.",
+        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
+      }
+    ]
   },
   {
     id: "zoya",
@@ -97,7 +129,23 @@ const freelancers = [
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
     portfolioQuality: 84,
     budgetFit: 89,
-    reviews: ["Understands retention hooks and brand tone.", "Great revision discipline."]
+    reviews: ["Understands retention hooks and brand tone.", "Great revision discipline."],
+    projects: [
+      {
+        title: "Tutorial series",
+        category: "Video editing",
+        tools: "Premiere Pro, After Effects",
+        summary: "Shaped a 10-part learning series with tight pacing and clean motion titles.",
+        image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "Launch reel pack",
+        category: "Social content",
+        tools: "Premiere Pro, CapCut",
+        summary: "Built short-form assets for launch campaigns and creator promos.",
+        image: "https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?auto=format&fit=crop&w=900&q=80"
+      }
+    ]
   },
   {
     id: "neel",
@@ -114,7 +162,23 @@ const freelancers = [
     avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80",
     portfolioQuality: 91,
     budgetFit: 90,
-    reviews: ["Made our docs readable without losing technical depth.", "Excellent information architecture."]
+    reviews: ["Made our docs readable without losing technical depth.", "Excellent information architecture."],
+    projects: [
+      {
+        title: "Payments API docs",
+        category: "Documentation",
+        tools: "OpenAPI, Markdown",
+        summary: "Wrote guides that helped developers integrate faster with fewer support tickets.",
+        image: "https://images.unsplash.com/photo-1516321310765-8d8c9ecb1a12?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "SDK migration notes",
+        category: "Developer docs",
+        tools: "OpenAPI, Docs site",
+        summary: "Mapped every edge case to smooth migration from the old SDK.",
+        image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=900&q=80"
+      }
+    ]
   }
 ];
 
@@ -127,6 +191,20 @@ const clients = [
     budget: "INR 1.2L - 1.9L",
     needs: "Dashboard redesign, design system, launch support",
     projects: ["SaaS analytics redesign", "Launch landing page", "Design system audit"],
+    projectDetails: [
+      {
+        title: "SaaS analytics redesign",
+        status: "Open",
+        description: "A dashboard refresh with better hierarchy, navigation, and reporting visibility.",
+        image: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "Launch landing page",
+        status: "Soon",
+        description: "A conversion page for an upcoming product launch with testimonials and pricing.",
+        image: "https://images.unsplash.com/photo-1516321310765-8d8c9ecb1a12?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
     cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
   },
@@ -138,6 +216,20 @@ const clients = [
     budget: "INR 60K - 1.1L",
     needs: "Video tutorials, motion graphics, thumbnails",
     projects: ["Tutorial video series", "Motion intro pack", "Thumbnail system"],
+    projectDetails: [
+      {
+        title: "Tutorial video series",
+        status: "Open",
+        description: "10 polished videos with motion callouts, captions, and pacing for retention.",
+        image: "https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "Motion intro pack",
+        status: "Open",
+        description: "Reusable intro animations for product explainers and social clips.",
+        image: "https://images.unsplash.com/photo-1516321310765-8d8c9ecb1a12?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
     cover: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80"
   },
@@ -149,6 +241,20 @@ const clients = [
     budget: "INR 90K - 1.5L",
     needs: "API docs, migration guides, sample snippets",
     projects: ["Payments API docs", "Migration guide", "Sandbox examples"],
+    projectDetails: [
+      {
+        title: "Payments API docs",
+        status: "Hiring",
+        description: "A docs revamp with examples, quick-start, and migration notes.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        title: "Sandbox examples",
+        status: "Open",
+        description: "Practical snippets and integration flows for common payment scenarios.",
+        image: "https://images.unsplash.com/photo-1516321310765-8d8c9ecb1a12?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
     cover: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80"
   }
@@ -264,11 +370,6 @@ function renderDashboard() {
             <button class="primary-button" data-route-to="projects">Post a project</button>
             <button class="ghost-button" data-route-to="marketplace">Browse profiles</button>
             <button class="ghost-button" data-route-to="ai">Open AI Studio</button>
-          </div>
-          <div class="hero-metrics">
-            <div><strong>${featuredClient.name}</strong><span>Featured client brief</span></div>
-            <div><strong>${featuredFreelancer.name}</strong><span>Top AI match</span></div>
-            <div><strong>${state.profileCompleteness}%</strong><span>Profile completion</span></div>
           </div>
         </div>
       </div>
@@ -704,50 +805,130 @@ function openModal(title, body) {
   byId("modal").showModal();
 }
 
+function openProfileViewer(body) {
+  byId("modalContent").innerHTML = body;
+  byId("modal").showModal();
+}
+
 function openProfile(id) {
   const freelancer = freelancers.find((item) => item.id === id);
-  openModal(
-    freelancer.name,
-    `
-      <p>${freelancer.title}</p>
-      <div class="chips">${freelancer.verified.map((badge) => `<span class="badge">${badge}</span>`).join("")}</div>
-      <p><strong>Education:</strong> ${freelancer.education}</p>
-      <p><strong>Experience:</strong> ${freelancer.experience}</p>
-      <p><strong>Reviews:</strong> ${freelancer.reviews.join(" ")}</p>
-      <div class="card-actions">
-        <button class="primary-button" data-action="message" data-name="${freelancer.name}">Message</button>
-        <button class="ghost-button" data-action="save-freelancer" data-id="${freelancer.id}">Save freelancer</button>
+  openProfileViewer(`
+    <div class="profile-viewer">
+      <div class="profile-viewer-topbar">
+        <div class="profile-ident">
+          <img class="profile-viewer-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
+          <div>
+            <p class="eyebrow">Freelancer profile</p>
+            <h2>${freelancer.name}</h2>
+            <p class="muted">${freelancer.title}</p>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="primary-button" data-action="message" data-name="${freelancer.name}">Message</button>
+          <button class="ghost-button" data-action="save-freelancer" data-id="${freelancer.id}">Save</button>
+        </div>
       </div>
-    `
-  );
+      <div class="profile-viewer-grid">
+        <section class="card profile-panel">
+          <h3>Overview</h3>
+          <div class="chips">
+            <span class="chip">${formatMoney(freelancer.rate)}/hr</span>
+            <span class="status-badge">${freelancer.availability}</span>
+            <span class="score">${scoreFreelancer(freelancer)}% fit</span>
+          </div>
+          <p><strong>Education:</strong> ${freelancer.education}</p>
+          <p><strong>Experience:</strong> ${freelancer.experience}</p>
+          <div class="chips">${freelancer.verified.map((badge) => `<span class="badge">${badge}</span>`).join("")}</div>
+          <h4>Skills</h4>
+          <div class="chips">${freelancer.skills.map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
+        </section>
+        <section class="card profile-panel">
+          <h3>Projects</h3>
+          <div class="project-stack">
+            ${freelancer.projects.map((project) => `
+              <article class="project-tile">
+                <img src="${project.image}" alt="${project.title}" />
+                <div>
+                  <div class="inline-actions">
+                    <span class="chip">${project.category}</span>
+                    <span class="status-badge">${project.tools}</span>
+                  </div>
+                  <h4>${project.title}</h4>
+                  <p>${project.summary}</p>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      </div>
+      <section class="card profile-panel">
+        <h3>Reviews received</h3>
+        <div class="timeline">
+          ${freelancer.reviews.map((review) => `<div><strong>Client note</strong><span>${review}</span><button class="small-button">Reply</button></div>`).join("")}
+        </div>
+      </section>
+    </div>
+  `);
 }
 
 function openClientProfile(name) {
   const client = clients.find((item) => item.name === name);
   if (!client) return;
-  openModal(
-    client.name,
-    `
-      <p>${client.title}</p>
-      <p><strong>Contact:</strong> ${client.contact}</p>
-      <p><strong>Project appetite:</strong> ${client.needs}</p>
-      <p><strong>Budget:</strong> ${client.budget}</p>
-      <div class="chips">${client.projects.map((project) => `<span class="chip">${project}</span>`).join("")}</div>
-      <div class="card-actions">
-        <button class="primary-button" data-action="message" data-name="${client.name}">Message client</button>
-        <button class="ghost-button" data-action="view-client-projects" data-name="${client.name}">See projects</button>
-      </div>
-      <div class="timeline" style="margin-top:16px">
-        ${client.projects.map((project) => `
+  openProfileViewer(`
+    <div class="profile-viewer">
+      <div class="profile-viewer-topbar">
+        <div class="profile-ident">
+          <img class="profile-viewer-avatar" src="${client.avatar}" alt="${client.name}" />
           <div>
-            <strong>${project}</strong>
-            <span>View scope, milestones, and open hiring slots.</span>
-            <button class="small-button" data-action="message" data-name="${client.name}">Discuss</button>
+            <p class="eyebrow">Client profile</p>
+            <h2>${client.name}</h2>
+            <p class="muted">${client.contact} - ${client.title}</p>
           </div>
-        `).join("")}
+        </div>
+        <div class="card-actions">
+          <button class="primary-button" data-action="message" data-name="${client.name}">Message</button>
+          <button class="ghost-button" data-action="view-client-projects" data-name="${client.name}">Projects</button>
+        </div>
       </div>
-    `
-  );
+      <div class="profile-viewer-grid">
+        <section class="card profile-panel">
+          <h3>Client details</h3>
+          <div class="chips">
+            <span class="chip">${client.budget}</span>
+            <span class="status-badge">Active client</span>
+          </div>
+          <p><strong>What they need:</strong> ${client.needs}</p>
+          <p><strong>Contact person:</strong> ${client.contact}</p>
+          <div class="chips">${client.projects.map((project) => `<span class="badge">${project}</span>`).join("")}</div>
+        </section>
+        <section class="card profile-panel">
+          <h3>Open projects</h3>
+          <div class="project-stack">
+            ${client.projectDetails.map((project) => `
+              <article class="project-tile">
+                <img src="${project.image}" alt="${project.title}" />
+                <div>
+                  <div class="inline-actions">
+                    <span class="chip">${project.status}</span>
+                    <span class="status-badge">${client.name}</span>
+                  </div>
+                  <h4>${project.title}</h4>
+                  <p>${project.description}</p>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      </div>
+      <section class="card profile-panel">
+        <h3>Available buttons</h3>
+        <div class="card-actions">
+          <button class="primary-button" data-action="message" data-name="${client.name}">Message client</button>
+          <button class="ghost-button" data-action="view-client-projects" data-name="${client.name}">See projects</button>
+        </div>
+      </section>
+    </div>
+  `);
 }
 
 function openIdentityFlow() {
