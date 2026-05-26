@@ -573,9 +573,6 @@ function renderDashboard() {
   byId("dashboard").innerHTML = `
     <div class="dashboard-frame">
     <div class="hero hero-stage serene-hero">
-      <div class="hero-cinema" aria-hidden="true">
-        ${renderHeroCinema(roleMode)}
-      </div>
       <div class="hero-panel hero-copy serene-copy">
         <div class="hero-copy-top">
           <p class="eyebrow">TalentStage marketplace</p>
@@ -607,6 +604,9 @@ function renderDashboard() {
             </div>
           </div>
         </div>
+      </div>
+      <div class="hero-cinema" aria-hidden="true">
+        ${renderHeroCinema(roleMode)}
       </div>
     </div>
     <div class="hero-spotlight">
