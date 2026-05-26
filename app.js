@@ -373,6 +373,18 @@ function renderDashboard() {
   const roleMode = getRoleMode();
   const isFreelancer = roleMode === "Freelancer";
   const isClient = roleMode === "Client";
+  const headline = isFreelancer
+    ? "Find clients who need your skills."
+    : isClient
+      ? "Find freelancers who fit the brief."
+      : "Hiring marketplace for creators and freelancers";
+  const supportingCopy = isFreelancer
+    ? "See open briefs, trusted client teams, and calm hiring signals in one place."
+    : isClient
+      ? "Focus on verified freelancers, project fit, and fast hiring decisions."
+      : "A softer, clearer starting point for browsing clients, freelancers, and strong project matches.";
+  const browseLabel = isClient ? "Browse freelancers" : isFreelancer ? "Browse clients" : "Browse marketplace";
+  const matchLabel = isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio";
   const spotlightMarkup =
     roleMode === "Client"
       ? renderDashboardFreelancerPreview(featuredFreelancer)
@@ -404,32 +416,48 @@ function renderDashboard() {
             </section>
           </div>`;
   byId("dashboard").innerHTML = `
-    <div class="hero hero-stage">
-      <div class="hero-panel hero-copy">
-        <div class="hero-copy-top">
-          <p class="eyebrow">TalentStage marketplace</p>
-          <h2>${isFreelancer ? "Find clients who need your skills." : isClient ? "Find freelancers who fit the brief." : "Find the right person at a glance."}</h2>
-          <p>${isFreelancer ? "Focus on open briefs, top client contacts, and the fastest path to a proposal." : isClient ? "Focus on verified freelancers, project fit, and fast hiring decisions." : "A calm starting point for browsing clients, freelancers, profiles, and AI match results."}</p>
-        </div>
-        <div class="hero-copy-bottom">
-          <div class="hero-search-row">
-            <input class="searchbar hero-search" id="heroSearch" placeholder="Search clients, freelancers, projects, or budgets" value="${state.searchTerm || ""}" />
-            <button class="primary-button" data-action="jump-marketplace">Search</button>
-          </div>
-          <div class="hero-actions">
-            ${isClient ? `<button class="primary-button" data-route-to="marketplace">Browse freelancers</button>` : isFreelancer ? `<button class="primary-button" data-route-to="marketplace">Browse clients</button>` : `<button class="primary-button" data-route-to="marketplace">Browse profiles</button>`}
-            <button class="ghost-button" data-route-to="ai">${isFreelancer ? "Open client match" : isClient ? "Open freelancer match" : "Open AI Studio"}</button>
-          </div>
-        </div>
-      </div>
+    <div class="dashboard-frame">
+    <div class="hero hero-stage serene-hero">
       <div class="hero-cinema" aria-hidden="true">
         ${renderHeroCinema(roleMode)}
+      </div>
+      <div class="hero-panel hero-copy serene-copy">
+        <div class="hero-copy-top">
+          <p class="eyebrow">TalentStage marketplace</p>
+          <h2>${headline}</h2>
+          <p>${supportingCopy}</p>
+        </div>
+        <div class="hero-copy-bottom">
+          <div class="hero-search-stack">
+            <input class="searchbar hero-search" id="heroSearch" placeholder="Search clients, freelancers, projects, or budgets" value="${state.searchTerm || ""}" />
+            <button class="primary-button search-button" data-action="jump-marketplace">Search</button>
+          </div>
+          <div class="hero-action-grid">
+            <button class="ghost-button hero-action-button" data-route-to="marketplace">${browseLabel}</button>
+            <button class="ghost-button hero-action-button" data-route-to="ai">${matchLabel}</button>
+          </div>
+          <div class="hero-trust-strip">
+            <div>
+              <strong>Trusted talent</strong>
+              <span>Verified professionals</span>
+            </div>
+            <div>
+              <strong>Quality work</strong>
+              <span>Thoughtful portfolio review</span>
+            </div>
+            <div>
+              <strong>Fast hiring</strong>
+              <span>Cleaner shortlisting</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="hero-spotlight">
       ${spotlightMarkup}
     </div>
     ${summaryMarkup}
+    </div>
   `;
   const heroSearch = byId("heroSearch");
   if (heroSearch) {
@@ -442,29 +470,27 @@ function renderDashboard() {
 }
 
 function renderHeroCinema(roleMode) {
-  const leftLabel = roleMode === "Client" ? "Trusted talent" : "Creative opportunity";
-  const rightLabel = roleMode === "Freelancer" ? "Open briefs" : "Trusted delivery";
   return `
     <div class="cinema-stage">
       <div class="cinema-glow cinema-glow-left"></div>
       <div class="cinema-glow cinema-glow-right"></div>
-      <div class="glass-panel glass-panel-top"></div>
-      <div class="glass-panel glass-panel-bottom"></div>
-      <div class="cinema-grid"></div>
+      <div class="cinema-mist cinema-mist-top"></div>
+      <div class="cinema-mist cinema-mist-bottom"></div>
+      <div class="portal portal-left"></div>
+      <div class="portal portal-right"></div>
       <div class="silhouette silhouette-left">
-        <span class="silhouette-label">${leftLabel}</span>
         <div class="silhouette-head"></div>
         <div class="silhouette-torso"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
       <div class="silhouette silhouette-right">
-        <span class="silhouette-label">${rightLabel}</span>
         <div class="silhouette-head"></div>
         <div class="silhouette-torso"></div>
         <div class="silhouette-arm silhouette-arm-front"></div>
         <div class="silhouette-arm silhouette-arm-back"></div>
       </div>
+      <div class="handshake-mark ${roleMode === "Client" ? "client-mark" : roleMode === "Freelancer" ? "freelancer-mark" : "both-mark"}"></div>
       <div class="handshake-core">
         <span></span>
         <span></span>
