@@ -482,7 +482,7 @@ function renderCompactMatch(freelancer, options = {}) {
   return `
     <article class="summary-card profile-card">
       <div class="summary-cover profile-cover" style="--cover:url('${freelancer.cover}')"></div>
-      <div class="summary-body profile-body">
+      <div class="summary-body summary-panel">
         <img class="compact-avatar summary-avatar" src="${freelancer.avatar}" alt="${freelancer.name}" />
         <div class="inline-actions">
           ${showMatch ? `<span class="score">${scoreFreelancer(freelancer)}% AI match</span>` : `<span class="badge">Freelancer</span>`}
@@ -505,7 +505,7 @@ function renderCompactClient(client) {
   return `
     <article class="summary-card client-card" data-action="view-client" data-name="${client.name}" role="button" tabindex="0">
       <div class="summary-cover client-cover" style="--cover:url('${client.cover}')"></div>
-      <div class="summary-body client-body">
+      <div class="summary-body summary-panel">
         <img class="compact-avatar summary-avatar" src="${client.avatar}" alt="${client.name}" />
         <div class="inline-actions">
           <span class="chip">Client</span>
