@@ -1689,6 +1689,18 @@ label {
 }
 
 @media (max-width: 1080px) {
+  .hero-cinema {
+    min-height: 520px;
+    background:
+      linear-gradient(180deg, rgba(255, 252, 247, 0.08), rgba(255, 252, 247, 0.08)),
+      url("file:///C:/Users/Smukx/Downloads/ChatGPT%20Image%20May%2027,%202026,%2012_26_25%20PM.png") center 26% / 920px auto no-repeat;
+    box-shadow: 0 24px 70px rgba(130, 104, 68, 0.08);
+  }
+
+  .cinema-stage {
+    display: none;
+  }
+
   .sidebar {
     top: 14px;
     left: 14px;
@@ -1875,42 +1887,63 @@ label {
     min-height: 330px;
   }
 
+  .hero-cinema {
+    background-position: center 24%;
+    background-size: 920px auto;
+  }
+
   .silhouette {
-    transform: scale(0.32);
+    transform: scale(0.52);
     transform-origin: center bottom;
-    bottom: 10px;
+    bottom: -2px;
+    animation: none;
   }
 
   .silhouette-left {
-    left: 48px;
+    left: 60px;
   }
 
   .silhouette-right {
-    right: 48px;
+    right: 60px;
+  }
+
+  .silhouette-left .silhouette-arm-front {
+    transform: rotate(6deg) scaleX(0.94);
+    animation: none;
+  }
+
+  .silhouette-right .silhouette-arm-front {
+    transform: rotate(-6deg) scaleX(0.94);
+    animation: none;
+  }
+
+  .silhouette-left .silhouette-arm-back,
+  .silhouette-right .silhouette-arm-back {
+    opacity: 0.35;
   }
 
   .portal-left {
-    left: 12px;
-    top: 112px;
-    width: 98px;
-    height: 158px;
+    left: 8px;
+    top: 108px;
+    width: 102px;
+    height: 162px;
   }
 
   .portal-right {
-    right: 12px;
-    top: 112px;
-    width: 98px;
-    height: 158px;
+    right: 8px;
+    top: 108px;
+    width: 102px;
+    height: 162px;
   }
 
   .handshake-core {
-    top: 182px;
-    width: 78px;
-    height: 42px;
+    top: 204px;
+    width: 88px;
+    height: 46px;
   }
 
   .connection-arc {
-    top: 174px;
+    top: 196px;
     width: 22%;
   }
 
