@@ -1693,7 +1693,7 @@ label {
     min-height: 520px;
     background:
       linear-gradient(180deg, rgba(255, 252, 247, 0.08), rgba(255, 252, 247, 0.08)),
-      url("mobile-hero-reference.png") center 26% / 920px auto no-repeat;
+      url("mobile-hero-reference.png") center 23% / 820px auto no-repeat;
     box-shadow: 0 24px 70px rgba(130, 104, 68, 0.08);
   }
 
@@ -1888,8 +1888,8 @@ label {
   }
 
   .hero-cinema {
-    background-position: center 24%;
-    background-size: 920px auto;
+    background-position: center 23%;
+    background-size: 760px auto;
   }
 
   .silhouette {
