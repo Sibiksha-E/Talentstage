@@ -763,7 +763,7 @@ function renderDashboardFreelancerPreview(freelancer) {
         </div>
         <p class="preview-title">${formatMoney(freelancer.rate)}/hr</p>
         <p>${freelancer.availability}</p>
-        <p class="muted">${freelancer.rating} rating</p>
+        <p class="muted">★ ${freelancer.rating} rating</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
@@ -792,7 +792,7 @@ function renderCompactMatch(freelancer, options = {}) {
           </div>
         </div>
         <p class="muted">${formatMoney(freelancer.rate)}/hr</p>
-        <p class="muted">${freelancer.rating} rating</p>
+        <p class="muted">★ ${freelancer.rating} rating</p>
         <div class="chips">${freelancer.skills.slice(0, 3).map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="card-actions">
           <button class="primary-button hire-button" data-action="view-profile" data-id="${freelancer.id}">Invite to brief</button>
@@ -917,7 +917,7 @@ function renderFreelancerCard(freelancer) {
         </div>
         <h3>${freelancer.name}</h3>
         <p>${freelancer.title}</p>
-        <p class="muted">${formatMoney(freelancer.rate)}/hr - ${freelancer.rating} rating</p>
+        <p class="muted">${formatMoney(freelancer.rate)}/hr - ★ ${freelancer.rating} rating</p>
         <div class="chips">${freelancer.skills.map((skill) => `<span class="chip">${skill}</span>`).join("")}</div>
         <div class="chips">${freelancer.verified.map((badge) => `<span class="badge">${badge}</span>`).join("")}</div>
         <div class="card-actions">
@@ -1251,7 +1251,7 @@ function openProfile(id) {
           <h3>Overview</h3>
           <div class="chips">
             <span class="chip">${formatMoney(freelancer.rate)}/hr</span>
-            <span class="chip">${freelancer.rating} rating</span>
+            <span class="chip">★ ${freelancer.rating} rating</span>
             <span class="status-badge">${freelancer.availability}</span>
             <span class="score">${scoreFreelancer(freelancer)}% fit</span>
           </div>
